@@ -3,8 +3,8 @@ import { NavLink } from 'react-router-dom'
 const navigation = [
 { label: 'Dashboard', path: '/dashboard', enabled: true },
 { label: 'Clients', path: '/customers', enabled: true },
-{ label: 'Sites', path: '/sites', enabled: false },
-{ label: 'Devis', path: '/quotes', enabled: false },
+{ label: 'Sites', path: '/sites', enabled: true },
+{ label: 'Devis', path: '/quotes', enabled: true },
 { label: 'Planning', path: '/jobs', enabled: false },
 { label: 'Équipes', path: '/teams', enabled: false },
 { label: 'Véhicules', path: '/vehicles', enabled: false },
