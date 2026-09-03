@@ -12,8 +12,17 @@ notes: '',
 active: true,
 }
 
-export default function CustomerForm({ onSubmit, onCancel, submitting = false }) {
-const [form, setForm] = useState(initialForm)
+export default function CustomerForm({
+initialValues = initialForm,
+onSubmit,
+onCancel,
+submitting = false,
+submitLabel = 'Créer le client',
+}) {
+const [form, setForm] = useState(() => ({
+...initialForm,
+...initialValues,
+}))
 
 function handleChange(event) {
 const { name, value, type, checked } = event.target
@@ -40,13 +49,13 @@ return ( <form
        >
 Type de client </label>
 
-```
       <select
         id="customer_type"
         name="customer_type"
         value={form.customer_type}
         onChange={handleChange}
-        className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
+        disabled={submitting}
+        className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200 disabled:cursor-not-allowed disabled:bg-slate-50"
       >
         <option value="individual">Particulier</option>
         <option value="company">Entreprise</option>
@@ -67,7 +76,8 @@ Type de client </label>
         type="text"
         value={form.company_name}
         onChange={handleChange}
-        className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
+        disabled={submitting}
+        className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200 disabled:cursor-not-allowed disabled:bg-slate-50"
       />
     </div>
 
@@ -85,7 +95,8 @@ Type de client </label>
         type="text"
         value={form.first_name}
         onChange={handleChange}
-        className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
+        disabled={submitting}
+        className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200 disabled:cursor-not-allowed disabled:bg-slate-50"
       />
     </div>
 
@@ -103,7 +114,8 @@ Type de client </label>
         type="text"
         value={form.last_name}
         onChange={handleChange}
-        className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
+        disabled={submitting}
+        className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200 disabled:cursor-not-allowed disabled:bg-slate-50"
       />
     </div>
 
@@ -121,7 +133,8 @@ Type de client </label>
         type="email"
         value={form.email}
         onChange={handleChange}
-        className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
+        disabled={submitting}
+        className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200 disabled:cursor-not-allowed disabled:bg-slate-50"
       />
     </div>
 
@@ -139,7 +152,8 @@ Type de client </label>
         type="tel"
         value={form.phone}
         onChange={handleChange}
-        className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
+        disabled={submitting}
+        className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200 disabled:cursor-not-allowed disabled:bg-slate-50"
       />
     </div>
 
@@ -157,7 +171,8 @@ Type de client </label>
         type="tel"
         value={form.mobile}
         onChange={handleChange}
-        className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
+        disabled={submitting}
+        className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200 disabled:cursor-not-allowed disabled:bg-slate-50"
       />
     </div>
 
@@ -168,8 +183,10 @@ Type de client </label>
           type="checkbox"
           checked={form.active}
           onChange={handleChange}
+          disabled={submitting}
           className="h-4 w-4 rounded border-slate-300"
         />
+
         Client actif
       </label>
     </div>
@@ -188,7 +205,8 @@ Type de client </label>
         rows="4"
         value={form.notes}
         onChange={handleChange}
-        className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
+        disabled={submitting}
+        className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200 disabled:cursor-not-allowed disabled:bg-slate-50"
       />
     </div>
   </div>
@@ -208,7 +226,7 @@ Type de client </label>
       disabled={submitting}
       className="rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-50"
     >
-      {submitting ? 'Création...' : 'Créer le client'}
+      {submitting ? 'Enregistrement...' : submitLabel}
     </button>
   </div>
 </form>
