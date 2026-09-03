@@ -1,35 +1,14 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { createCustomer, getCustomers } from '../../services/customers'
-import CustomerForm from './CustomerForm'
+import { getCustomers } from '../../services/customers'
 
 export default function CustomersPage() {
 const [customers, setCustomers] = useState([])
 const [loading, setLoading] = useState(true)
 const [error, setError] = useState('')
-const [showForm, setShowForm] = useState(false)
-const [submitting, setSubmitting] = useState(false)
-
-async function loadCustomers() {
-try {
-setError('')
-
-
-  const data = await getCustomers()
-
-  setCustomers(Array.isArray(data) ? data : [])
-} catch {
-  setError('Impossible de charger les clients.')
-} finally {
-  setLoading(false)
-}
-
-
-}
 
 useEffect(() => {
 let active = true
-
 
 async function load() {
   try {
@@ -57,32 +36,7 @@ return () => {
   active = false
 }
 
-
 }, [])
-
-async function handleCreate(customer) {
-try {
-setSubmitting(true)
-setError('')
-
-
-  await createCustomer(customer)
-
-  setShowForm(false)
-  await loadCustomers()
-} catch (requestError) {
-  const messages = requestError.response?.data?.messages
-
-  if (Array.isArray(messages) && messages.length > 0) {
-    setError(messages.join(' '))
-  } else {
-    setError('Impossible de créer le client.')
-  }
-} finally {
-  setSubmitting(false)
-}
-
-}
 
 return ( <div className="min-h-full p-6 lg:p-8"> <div className="mx-auto max-w-7xl space-y-6"> <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"> <div> <p className="text-sm font-medium text-slate-500">
 Gestion commerciale </p>
@@ -96,32 +50,15 @@ Gestion commerciale </p>
         </p>
       </div>
 
-      <button
-        type="button"
-        onClick={() => {
-          setError('')
-          setShowForm(true)
-        }}
+      <Link
+        to="/customers/new"
         className="rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-slate-800"
       >
         Nouveau client
-      </button>
+      </Link>
     </div>
 
-    {showForm && (
-      <CustomerForm
-        onSubmit={handleCreate}
-        onCancel={() => {
-          if (!submitting) {
-            setShowForm(false)
-            setError('')
-          }
-        }}
-        submitting={submitting}
-      />
-    )}
-
-    {!showForm && error && (
+    {error && (
       <div className="rounded-xl border border-red-200 bg-red-50 p-6">
         <p className="text-sm font-medium text-red-700">
           {error}
@@ -217,7 +154,6 @@ Gestion commerciale </p>
     )}
   </div>
 </div>
-
 
 )
 }
