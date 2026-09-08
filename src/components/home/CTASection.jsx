@@ -17,16 +17,11 @@
 
         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <a
-            href="/register"
-            className="inline-flex items-center justify-center rounded-xl bg-emerald-500 px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:bg-emerald-400 hover:shadow-lg"
-          >
+           href="/login" className="inline-flex items-center justify-center rounded-xl bg-emerald-500 px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:bg-emerald-400 hover:shadow-lg">
             Commencer avec GreenPilot
           </a>
 
-          <a
-            href="/dashboard"
-            className="inline-flex items-center justify-center rounded-xl border border-slate-700 px-6 py-3.5 text-sm font-semibold text-white transition-colors duration-300 hover:border-slate-500 hover:bg-slate-800"
-          >
+          <a href="#modules" className="inline-flex items-center justify-center rounded-xl border border-slate-700 px-6 py-3.5 text-sm font-semibold text-white transition-colors duration-300 hover:border-slate-500 hover:bg-slate-800">
             Découvrir la plateforme
           </a>
         </div>
