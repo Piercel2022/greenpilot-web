@@ -5,12 +5,12 @@ const navigation = [
 { label: 'Clients', path: '/customers', enabled: true },
 { label: 'Sites', path: '/sites', enabled: true },
 { label: 'Devis', path: '/quotes', enabled: true },
-{ label: 'Planning', path: '/jobs', enabled: false },
-{ label: 'Équipes', path: '/teams', enabled: false },
-{ label: 'Véhicules', path: '/vehicles', enabled: false },
-{ label: 'Équipements', path: '/equipment', enabled: false },
-{ label: 'Facturation', path: '/invoices', enabled: false },
-{ label: 'Rapports', path: '/reports', enabled: false },
+{ label: 'Planning', path: '/jobs', enabled: true },
+{ label: 'Équipes', path: '/teams', enabled: true },
+{ label: 'Véhicules', path: '/vehicles', enabled: true },
+{ label: 'Équipements', path: '/equipment', enabled: true },
+{ label: 'Facturation', path: '/invoices', enabled: true },
+{ label: 'Rapports', path: '/reports', enabled: true },
 ]
 
 export default function Sidebar() {
