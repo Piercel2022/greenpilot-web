@@ -3,6 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/auth/LoginPage";
+import Register from "../pages/auth/Register";
 import DashboardPage from "../pages/dashboard/DashboardPage";
 
 import CustomersPage from "../pages/customers/CustomersPage";
@@ -55,6 +56,10 @@ import ReportsPage from "../pages/reports/ReportsPage";
 import ReportShowPage from "../pages/reports/ReportShowPage";
 import ReportFormPage from "../pages/reports/ReportFormPage";
 
+import ContactPage from "../pages/ContactPage";
+import HelpPage from "../pages/HelpPage";
+import PricingPage from "../pages/PricingPage";
+
 
 import AppLayout from "../layouts/AppLayout";
 import ProtectedRoute from "./ProtectedRoute";
@@ -65,6 +70,10 @@ export default function AppRouter() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/aide" element={<HelpPage />} />
+        <Route path="/tarifs" element={<PricingPage />} />
 
         <Route element={<ProtectedRoute />}>
           <Route element={<AppLayout />}>
@@ -149,7 +158,6 @@ export default function AppRouter() {
             <Route path="/reports/:id" element={<ReportShowPage />} />
             <Route path="/reports/new" element={<ReportFormPage />} />
             <Route path="/reports/:id/edit" element={<ReportFormPage />} />
-
           </Route>
         </Route>
 
