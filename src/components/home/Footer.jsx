@@ -4,8 +4,8 @@ const footerLinks = {
     { label: "Tarifs", href: "#tarifs" },
   ],
   Ressources: [
-    { label: "Aide", href: "#aide" },
-    { label: "Contact", href: "#contact" },
+    { label: "Aide", href: "/aide" },
+    { label: "Contact", href: "/contact" },
   ],
   Légal: [
     { label: "Mentions légales", href: "#mentions-legales" },
@@ -24,7 +24,7 @@ const footerLinks = {
               href="/"
               className="text-xl font-bold tracking-tight text-white"
             >
-              GreenPilot
+              UseGreenPilot
             </a>
 
             <p className="mt-4 text-sm leading-6 text-slate-400">
