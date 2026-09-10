@@ -59,6 +59,7 @@ import ReportFormPage from "../pages/reports/ReportFormPage";
 import ContactPage from "../pages/ContactPage";
 import HelpPage from "../pages/HelpPage";
 import PricingPage from "../pages/PricingPage";
+import FeaturesPage from "../pages/FeaturesPage";
 
 
 import AppLayout from "../layouts/AppLayout";
@@ -74,6 +75,7 @@ export default function AppRouter() {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/aide" element={<HelpPage />} />
         <Route path="/tarifs" element={<PricingPage />} />
+        <Route path="/fonctionnalites" element={<FeaturesPage />} />
 
         <Route element={<ProtectedRoute />}>
           <Route element={<AppLayout />}>
