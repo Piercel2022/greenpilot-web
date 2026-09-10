@@ -45,7 +45,7 @@ const reasons = [
 
 const faqs = [
   {
-    question: "À qui s’adresse GreenPilot ?",
+    question: "À qui s’adresse UseGreenPilot ?",
     answer:
       "GreenPilot est conçu pour les entreprises du paysage, des espaces verts et de l’environnement qui souhaitent centraliser leur gestion.",
   },
