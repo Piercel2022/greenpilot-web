@@ -2,7 +2,6 @@
 import HomeNavbar from "../components/home/HomeNavbar";
 import HeroSection from "../components/home/Hero";
 import ProblemSection from "../components/home/ProblemSection";
-import ModulesSection from "../components/home/ModulesSection";
 import ResultSection from "../components/home/ResultSection";
 import BenefitsSection from "../components/home/BenefitsSection";
 import ProductPreviewSection from "../components/home/ProductPreviewSection";
@@ -17,10 +16,9 @@ export default function HomePage() {
       <main>
         <HeroSection />
         <ProblemSection />
-        <BenefitsSection />
-        <ModulesSection />
-        <ResultSection />
         <ProductPreviewSection />
+        <BenefitsSection />
+        <ResultSection />
         <CTASection />
       </main>
 
