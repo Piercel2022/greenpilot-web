@@ -92,7 +92,8 @@ const features = [
     id: "pilotage",
     icon: BarChart3,
     eyebrow: "06 · Pilotage & Rentabilité",
-    title: "Pilotez votre entreprise avec une vision plus claire de votre activité.",
+    title:
+      "Pilotez votre entreprise avec une vision plus claire de votre activité.",
     description:
       "Centralisez les données nécessaires au suivi de votre activité et préparez une gestion davantage orientée vers la performance.",
     items: [
@@ -105,6 +106,11 @@ const features = [
     ],
   },
 ];
+
+const featureRoutes = {
+  "clients-sites": "/fonctionnalites/clients-sites",
+  "devis": "/fonctionnalites/devis",
+};
 
 const businessTypes = [
   {
@@ -143,22 +149,26 @@ const workflow = [
   {
     number: "03",
     title: "Le devis",
-    description: "Préparez votre proposition commerciale à partir des bonnes informations.",
+    description:
+      "Préparez votre proposition commerciale à partir des bonnes informations.",
   },
   {
     number: "04",
     title: "Le chantier",
-    description: "Organisez l'intervention et donnez les bonnes informations au terrain.",
+    description:
+      "Organisez l'intervention et donnez les bonnes informations au terrain.",
   },
   {
     number: "05",
     title: "Le suivi",
-    description: "Conservez les données réalisées, le temps passé et le compte rendu.",
+    description:
+      "Conservez les données réalisées, le temps passé et le compte rendu.",
   },
   {
     number: "06",
     title: "La facturation",
-    description: "Gardez le lien entre le travail réalisé et votre gestion financière.",
+    description:
+      "Gardez le lien entre le travail réalisé et votre gestion financière.",
   },
 ];
 
@@ -244,10 +254,12 @@ function FeatureSection({ feature, index }) {
               <div className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
                 <CheckCircle2 className="h-5 w-5" />
               </div>
+
               <div>
                 <p className="text-sm font-semibold text-slate-900">
                   Informations centralisées
                 </p>
+
                 <p className="mt-0.5 text-xs text-slate-500">
                   Au même endroit
                 </p>
@@ -257,6 +269,52 @@ function FeatureSection({ feature, index }) {
         </div>
       </div>
     </section>
+  );
+}
+
+function FeatureCard({ feature }) {
+  const Icon = feature.icon;
+  const route = featureRoutes[feature.id];
+
+  const content = (
+    <>
+      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-emerald-600 shadow-sm ring-1 ring-slate-200 transition group-hover:bg-emerald-50 group-hover:ring-emerald-100">
+        <Icon className="h-5 w-5" />
+      </div>
+
+      <h3 className="mt-5 font-semibold text-slate-950">
+        {feature.eyebrow.replace(/^\d+ · /, "")}
+      </h3>
+
+      <p className="mt-2 text-sm leading-6 text-slate-600">
+        {feature.description}
+      </p>
+
+      <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-emerald-600">
+        Découvrir
+        <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+      </span>
+    </>
+  );
+
+  if (route) {
+    return (
+      <Link
+        to={route}
+        className="group rounded-2xl border border-slate-200 bg-slate-50 p-6 transition hover:-translate-y-1 hover:border-emerald-200 hover:bg-white hover:shadow-md"
+      >
+        {content}
+      </Link>
+    );
+  }
+
+  return (
+    <a
+      href={`#${feature.id}`}
+      className="group rounded-2xl border border-slate-200 bg-slate-50 p-6 transition hover:-translate-y-1 hover:border-emerald-200 hover:bg-white hover:shadow-md"
+    >
+      {content}
+    </a>
   );
 }
 
@@ -325,41 +383,20 @@ function FeaturesPage() {
           </div>
 
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {features.map((feature) => {
-              const Icon = feature.icon;
-
-              return (
-                <a
-                  key={feature.id}
-                  href={`#${feature.id}`}
-                  className="group rounded-2xl border border-slate-200 bg-slate-50 p-6 transition hover:-translate-y-1 hover:border-emerald-200 hover:bg-white hover:shadow-md"
-                >
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-emerald-600 shadow-sm ring-1 ring-slate-200 transition group-hover:bg-emerald-50 group-hover:ring-emerald-100">
-                    <Icon className="h-5 w-5" />
-                  </div>
-
-                  <h3 className="mt-5 font-semibold text-slate-950">
-                    {feature.eyebrow.replace(/^\d+ · /, "")}
-                  </h3>
-
-                  <p className="mt-2 text-sm leading-6 text-slate-600">
-                    {feature.description}
-                  </p>
-
-                  <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-emerald-600">
-                    Découvrir
-                    <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-                  </span>
-                </a>
-              );
-            })}
+            {features.map((feature) => (
+              <FeatureCard key={feature.id} feature={feature} />
+            ))}
           </div>
         </div>
       </section>
 
       {/* Feature details */}
       {features.map((feature, index) => (
-        <FeatureSection key={feature.id} feature={feature} index={index} />
+        <FeatureSection
+          key={feature.id}
+          feature={feature}
+          index={index}
+        />
       ))}
 
       {/* Business types */}
