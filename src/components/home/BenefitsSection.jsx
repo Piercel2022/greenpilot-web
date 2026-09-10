@@ -1,4 +1,3 @@
-
 import {
   Clock3,
   MessagesSquare,
@@ -9,27 +8,27 @@ import {
 const benefits = [
   {
     icon: Clock3,
-    title: "Gagnez du temps",
+    title: "Gagnez du temps au quotidien",
     description:
-      "Retrouvez rapidement les informations dont vous avez besoin et réduisez les tâches administratives répétitives.",
+      "Retrouvez vos informations rapidement et réduisez les tâches administratives qui ralentissent votre activité.",
   },
   {
     icon: MessagesSquare,
-    title: "Gardez tout le monde aligné",
+    title: "Coordonnez mieux vos équipes",
     description:
-      "Les équipes disposent des mêmes informations, du bureau jusqu'au terrain, au bon moment.",
+      "Le bureau et le terrain travaillent avec les mêmes informations pour que chaque intervention soit mieux préparée.",
   },
   {
     icon: Receipt,
-    title: "Facturez plus rapidement",
+    title: "Accélérez votre facturation",
     description:
-      "Ne laissez plus les prestations réalisées attendre avant d'être transformées en factures.",
+      "Gardez une continuité entre les prestations réalisées, leur suivi et la facturation de vos clients.",
   },
   {
     icon: TrendingUp,
-    title: "Pilotez avec vos chiffres",
+    title: "Pilotez votre rentabilité",
     description:
-      "Suivez votre activité, vos coûts et vos marges pour savoir où vous gagnez réellement de l'argent.",
+      "Disposez d'une vision plus claire de votre activité, de vos coûts et de vos marges pour prendre de meilleures décisions.",
   },
 ];
 
@@ -46,13 +45,13 @@ function BenefitsSection() {
           </p>
 
           <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
-            Moins de dispersion. Plus de maîtrise.
+            Moins de gestion. Plus de maîtrise.
           </h2>
 
           <p className="mt-6 text-lg leading-8 text-slate-600">
-            UseGreenPilot vous aide à mieux organiser votre quotidien pour
-            consacrer davantage de temps à vos clients, vos équipes et au
-            développement de votre entreprise.
+            UseGreenPilot transforme vos informations dispersées en un système
+            de pilotage clair, pour mieux organiser votre activité et vous
+            concentrer sur ce qui compte vraiment.
           </p>
         </div>
 
