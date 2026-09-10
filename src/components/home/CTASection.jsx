@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function CTASection() {
 return ( <section className="bg-slate-900 py-24 sm:py-28"> <div className="mx-auto max-w-4xl px-6 text-center lg:px-8"> <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-400">
 Passez à l'action </p>
@@ -12,19 +14,19 @@ Passez à l'action </p>
     </p>
 
     <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-      <a
-        href="/login"
+      <Link
+        to="/register"
         className="inline-flex items-center justify-center rounded-xl bg-emerald-500 px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:bg-emerald-400 hover:shadow-lg"
       >
         Commencer avec GreenPilot
-      </a>
+      </Link>
 
-      <a
-        href="/contact"
+      <Link
+        to="/contact"
         className="inline-flex items-center justify-center rounded-xl border border-slate-700 px-6 py-3.5 text-sm font-semibold text-white transition-colors duration-300 hover:border-slate-500 hover:bg-slate-800"
       >
         Demander une démonstration
-      </a>
+      </Link>
     </div>
 
     <p className="mt-6 text-sm text-slate-400">
