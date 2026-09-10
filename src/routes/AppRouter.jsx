@@ -60,6 +60,11 @@ import ContactPage from "../pages/ContactPage";
 import HelpPage from "../pages/HelpPage";
 import PricingPage from "../pages/PricingPage";
 import FeaturesPage from "../pages/FeaturesPage";
+import ClientsSitesPage from "../pages/features/ClientsSitesPage";
+
+import LegalNoticePage from "../pages/LegalNoticePage";
+import PrivacyPage from "../pages/PrivacyPage";
+import TermsPage from "../pages/TermsPage";
 
 
 import AppLayout from "../layouts/AppLayout";
@@ -76,6 +81,10 @@ export default function AppRouter() {
         <Route path="/aide" element={<HelpPage />} />
         <Route path="/tarifs" element={<PricingPage />} />
         <Route path="/fonctionnalites" element={<FeaturesPage />} />
+        <Route path="/fonctionnalites/clients-sites" element={<ClientsSitesPage />} />
+        <Route path="/mentions-legales" element={<LegalNoticePage />} />
+        <Route path="/confidentialite" element={<PrivacyPage />} />
+        <Route path="/cgu" element={<TermsPage />} />
 
         <Route element={<ProtectedRoute />}>
           <Route element={<AppLayout />}>
