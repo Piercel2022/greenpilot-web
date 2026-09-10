@@ -14,26 +14,33 @@ USE </div>
     </Link>
 
     <nav className="hidden items-center gap-8 md:flex">
-      <a
-        href="#plateforme"
-        className="text-sm font-medium text-slate-600 transition hover:text-slate-950"
-      >
-        Plateforme
-      </a>
-
-      <a
-        href="#fonctionnalites"
+      <Link
+        to="/fonctionnalites"
         className="text-sm font-medium text-slate-600 transition hover:text-slate-950"
       >
         Fonctionnalités
-      </a>
+      </Link>
 
-      <a
-        href="#pourquoi-greenpilot"
+      <Link
+        to="/tarifs"
         className="text-sm font-medium text-slate-600 transition hover:text-slate-950"
       >
-        Pourquoi GreenPilot
-      </a>
+        Tarifs
+      </Link>
+
+      <Link
+        to="/aide"
+        className="text-sm font-medium text-slate-600 transition hover:text-slate-950"
+      >
+        Aide
+      </Link>
+
+      <Link
+        to="/contact"
+        className="text-sm font-medium text-slate-600 transition hover:text-slate-950"
+      >
+        Contact
+      </Link>
     </nav>
 
     <div className="flex items-center gap-3">
