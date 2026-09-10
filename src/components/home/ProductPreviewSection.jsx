@@ -6,7 +6,7 @@ function ProductPreviewSection() {
         {/* Section header */}
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-sm font-semibold uppercase tracking-wider text-green-600">
-            Découvrez GreenPilot
+            Découvrez UseGreenPilot
           </p>
 
           <h2 className="mt-3 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
@@ -54,7 +54,7 @@ function ProductPreviewSection() {
                 </div>
 
                 <h3 className="mt-5 text-lg font-semibold text-slate-900">
-                  Aperçu du Dashboard GreenPilot
+                  Aperçu du Dashboard UseGreenPilot
                 </h3>
 
                 <p className="mx-auto mt-2 max-w-lg text-sm leading-6 text-slate-500">

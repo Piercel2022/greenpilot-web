@@ -1,7 +1,7 @@
 const footerLinks = {
   Produit: [
     { label: "Fonctionnalités", href: "#modules" },
-    { label: "Tarifs", href: "#tarifs" },
+    { label: "Tarifs", href: "/tarifs" },
   ],
   Ressources: [
     { label: "Aide", href: "/aide" },

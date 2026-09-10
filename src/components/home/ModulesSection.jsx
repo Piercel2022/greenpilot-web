@@ -79,7 +79,7 @@ function ModulesSection() {
                 className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
               >
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50">
-                  <Icon className="h-6 w-6 text-emerald-600" />
+                  <Icon className="h-6 w-6 text-emerald-900" />
                 </div>
 
                 <h3 className="mt-6 text-lg font-semibold text-slate-900">

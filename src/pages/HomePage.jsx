@@ -17,9 +17,9 @@ export default function HomePage() {
       <main>
         <HeroSection />
         <ProblemSection />
+        <BenefitsSection />
         <ModulesSection />
         <ResultSection />
-        <BenefitsSection />
         <ProductPreviewSection />
         <CTASection />
       </main>

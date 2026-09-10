@@ -6,7 +6,7 @@ return ( <header className="border-b border-slate-200/80 bg-white"> <div classNa
        className="flex items-center gap-2"
        aria-label="GreenPilot - Accueil"
      > <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-green-600 text-lg font-bold text-white">
-G </div>
+USE </div>
 
       <span className="text-xl font-bold tracking-tight text-slate-950">
         GreenPilot

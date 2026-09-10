@@ -1,3 +1,4 @@
+
 import {
   Clock3,
   MessagesSquare,
@@ -32,9 +33,12 @@ const benefits = [
   },
 ];
 
- function BenefitsSection() {
+function BenefitsSection() {
   return (
-    <section className="bg-white py-24 sm:py-28">
+    <section
+      id="pourquoi-greenpilot"
+      className="bg-white py-24 sm:py-28"
+    >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-600">
@@ -46,7 +50,7 @@ const benefits = [
           </h2>
 
           <p className="mt-6 text-lg leading-8 text-slate-600">
-            GreenPilot vous aide à mieux organiser votre quotidien pour
+            UseGreenPilot vous aide à mieux organiser votre quotidien pour
             consacrer davantage de temps à vos clients, vos équipes et au
             développement de votre entreprise.
           </p>
@@ -80,4 +84,5 @@ const benefits = [
     </section>
   );
 }
+
 export default BenefitsSection;
