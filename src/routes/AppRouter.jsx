@@ -62,6 +62,10 @@ import PricingPage from "../pages/PricingPage";
 import FeaturesPage from "../pages/FeaturesPage";
 import ClientsSitesPage from "../pages/features/ClientsSitesPage";
 import QuotesFeaturePage from "../pages/features/QuotesFeaturePage";
+import PlanningTeamsPage from "../pages/features/PlanningTeamsPage";
+import JobsFieldPage from "../pages/features/JobsFieldPage";
+import FacturationPage from "../pages/features/FacturationPage";
+
 
 
 import LegalNoticePage from "../pages/LegalNoticePage";
@@ -85,6 +89,10 @@ export default function AppRouter() {
         <Route path="/fonctionnalites" element={<FeaturesPage />} />
         <Route path="/fonctionnalites/clients-sites" element={<ClientsSitesPage />} />
         <Route path="/fonctionnalites/devis" element={<QuotesFeaturePage />} />
+        <Route path="/fonctionnalites/planning-equipes" element={<PlanningTeamsPage />} />
+        <Route path="/fonctionnalites/chantiers-terrain" element={<JobsFieldPage />} />
+        <Route path="/fonctionnalites/facturation" element={<FacturationPage />} />
+
         <Route path="/mentions-legales" element={<LegalNoticePage />} />
         <Route path="/confidentialite" element={<PrivacyPage />} />
         <Route path="/cgu" element={<TermsPage />} />
