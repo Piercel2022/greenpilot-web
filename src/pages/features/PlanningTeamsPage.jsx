@@ -16,78 +16,66 @@ import {
 const problems = [
   {
     icon: CalendarDays,
-    title: "Un planning difficile à maintenir",
+    title: "Un planning difficile à tenir",
     description:
-      "Les interventions sont réparties entre Excel, agendas, messages et notes personnelles.",
+      "Les interventions sont réparties entre agenda, fichiers, messages et mémoire. Les changements deviennent vite difficiles à suivre.",
   },
   {
     icon: Users,
     title: "Des équipes difficiles à coordonner",
     description:
-      "Il devient compliqué de savoir qui intervient, où, quand et avec quelles consignes.",
-  },
-  {
-    icon: RefreshCw,
-    title: "Les changements se multiplient",
-    description:
-      "Une absence, un retard ou une modification de chantier peut rapidement désorganiser toute la journée.",
-  },
-  {
-    icon: Truck,
-    title: "Les ressources sont dispersées",
-    description:
-      "Véhicules, équipements et équipes doivent être coordonnés pour éviter les conflits et les déplacements inutiles.",
+      "Il faut savoir qui intervient, où, quand, avec quelles compétences et avec quelles ressources.",
   },
   {
     icon: MapPin,
-    title: "Le terrain manque de visibilité",
+    title: "Des informations dispersées",
     description:
-      "Les équipes ont besoin des bonnes informations avant de partir sur chaque intervention.",
+      "Le lieu, les prestations, les consignes et les informations client ne sont pas toujours accessibles au même endroit.",
   },
   {
     icon: Clock3,
-    title: "Du temps perdu chaque jour",
+    title: "Des journées peu optimisées",
     description:
-      "Une organisation fragmentée entraîne des appels, des recherches et des ajustements permanents.",
+      "Les déplacements, les temps d'intervention et les changements de dernière minute peuvent réduire la productivité.",
+  },
+  {
+    icon: Truck,
+    title: "Des ressources à coordonner",
+    description:
+      "Véhicules, équipements et équipes doivent être disponibles au bon moment pour éviter les blocages sur le terrain.",
+  },
+  {
+    icon: RefreshCw,
+    title: "Des changements difficiles à absorber",
+    description:
+      "Une absence, une météo défavorable ou une urgence peut rapidement désorganiser plusieurs interventions.",
   },
 ];
 
 const workflow = [
   {
-    number: "01",
-    title: "Sélectionnez le chantier",
+    step: "01",
+    title: "Visualisez les interventions",
     description:
-      "Retrouvez rapidement le chantier à planifier depuis les informations déjà enregistrées dans GreenPilot.",
+      "Retrouvez les chantiers et interventions planifiés dans une vue claire, structurée et exploitable.",
   },
   {
-    number: "02",
-    title: "Choisissez la date",
+    step: "02",
+    title: "Affectez les équipes",
     description:
-      "Positionnez l'intervention dans le planning en fonction des disponibilités et des priorités.",
+      "Associez les bonnes personnes aux bonnes interventions en fonction des besoins du chantier.",
   },
   {
-    number: "03",
-    title: "Affectez une équipe",
+    step: "03",
+    title: "Coordonnez les ressources",
     description:
-      "Attribuez l'intervention à l'équipe la plus adaptée à la nature du chantier.",
+      "Prenez en compte les véhicules, équipements et contraintes nécessaires à l'exécution.",
   },
   {
-    number: "04",
-    title: "Préparez les ressources",
+    step: "04",
+    title: "Adaptez votre journée",
     description:
-      "Coordonnez les véhicules et les équipements nécessaires pour éviter les conflits de ressources.",
-  },
-  {
-    number: "05",
-    title: "Partagez les informations",
-    description:
-      "Les équipes disposent des informations essentielles pour savoir où aller et quoi réaliser.",
-  },
-  {
-    number: "06",
-    title: "Suivez l'avancement",
-    description:
-      "Gardez une vision claire des interventions planifiées, en cours et terminées.",
+      "Réorganisez rapidement le planning lorsqu'un imprévu survient sans perdre la vision globale.",
   },
 ];
 
@@ -96,80 +84,70 @@ const capabilities = [
     icon: CalendarDays,
     title: "Planning centralisé",
     description:
-      "Visualisez les interventions et organisez les journées depuis un espace unique.",
+      "Une vision unique des interventions à venir, des équipes mobilisées et des journées à organiser.",
   },
   {
     icon: Users,
     title: "Affectation des équipes",
     description:
-      "Associez chaque chantier à l'équipe appropriée selon les besoins de l'intervention.",
+      "Associez chaque intervention aux collaborateurs concernés et gardez une vision claire des responsabilités.",
+  },
+  {
+    icon: MapPin,
+    title: "Localisation des interventions",
+    description:
+      "Identifiez rapidement où chaque équipe doit intervenir et retrouvez le contexte du site.",
   },
   {
     icon: Clock3,
-    title: "Meilleure gestion du temps",
+    title: "Gestion du temps",
     description:
-      "Structurez les journées et réduisez les temps morts liés à une organisation approximative.",
+      "Organisez les journées en tenant compte des horaires et des temps consacrés aux interventions.",
   },
   {
     icon: Truck,
-    title: "Coordination des ressources",
+    title: "Ressources associées",
     description:
-      "Tenez compte des véhicules et équipements nécessaires lors de la préparation des interventions.",
+      "Coordonnez les véhicules et équipements nécessaires à la bonne réalisation des travaux.",
   },
   {
     icon: CloudSun,
-    title: "Anticipation terrain",
+    title: "Anticipation des imprévus",
     description:
-      "Adaptez votre organisation aux contraintes opérationnelles et aux conditions de terrain.",
-  },
-  {
-    icon: ClipboardCheck,
-    title: "Suivi des interventions",
-    description:
-      "Conservez une vision de ce qui est prévu, en cours ou déjà réalisé.",
+      "Adaptez votre organisation lorsque la météo, les absences ou les urgences modifient le programme.",
   },
 ];
 
 const exampleSteps = [
   {
-    title: "8 interventions à organiser",
+    time: "07:30",
+    title: "Départ de l'équipe",
     description:
-      "Une entreprise de paysage doit planifier huit interventions sur la semaine avec trois équipes.",
+      "L'équipe retrouve ses interventions, les adresses et les principales consignes de la journée.",
   },
   {
-    title: "Les chantiers sont déjà connus",
+    time: "08:00",
+    title: "Entretien récurrent",
     description:
-      "Les clients, sites et prestations sont accessibles directement dans GreenPilot.",
+      "Première intervention sur un site client avec les prestations prévues.",
   },
   {
-    title: "Les priorités sont définies",
+    time: "10:30",
+    title: "Deuxième intervention",
     description:
-      "Les interventions urgentes ou contraintes par une date sont positionnées en priorité.",
+      "Le planning indique le prochain site et les ressources nécessaires.",
   },
   {
-    title: "Les équipes sont affectées",
+    time: "14:00",
+    title: "Chantier important",
     description:
-      "Chaque chantier reçoit l'équipe correspondant à ses compétences et disponibilités.",
+      "Une équipe dédiée intervient sur un chantier nécessitant davantage de temps et de matériel.",
   },
   {
-    title: "Les ressources sont préparées",
+    time: "17:00",
+    title: "Fin de journée",
     description:
-      "Les véhicules et équipements nécessaires sont pris en compte avant le départ.",
-  },
-  {
-    title: "La semaine devient lisible",
-    description:
-      "Le responsable dispose d'une vision globale de la charge et de l'organisation.",
-  },
-  {
-    title: "Les équipes savent quoi faire",
-    description:
-      "Chaque intervention est associée à un lieu, une équipe et les informations utiles.",
-  },
-  {
-    title: "Le suivi devient continu",
-    description:
-      "L'organisation ne s'arrête plus au planning : elle se poursuit jusqu'à la réalisation du chantier.",
+      "Les informations issues du terrain peuvent alimenter le suivi des chantiers et les prochaines actions.",
   },
 ];
 
@@ -219,259 +197,253 @@ const connections = [
 ];
 
 const benefits = [
-  "Une vision claire des journées et des semaines",
-  "Des équipes mieux coordonnées",
-  "Moins d'oublis et de conflits de planning",
+  "Une vision claire des journées à venir",
+  "Une meilleure coordination des équipes",
+  "Moins d'oublis et de doublons",
+  "Une organisation plus simple face aux imprévus",
   "Une meilleure utilisation des ressources",
-  "Moins de temps passé à rechercher des informations",
-  "Une continuité entre bureau, planning et terrain",
+  "Une continuité entre bureau et terrain",
 ];
 
-function SectionIntro({ eyebrow, title, description }) {
-  return (
-    <div className="mx-auto max-w-3xl text-center">
-      <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-600">
-        {eyebrow}
-      </p>
-      <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
-        {title}
-      </h2>
-      <p className="mt-5 text-lg leading-8 text-slate-600">{description}</p>
-    </div>
-  );
-}
+const moduleNavigation = {
+  previous: {
+    label: "Clients & Sites",
+    href: "/fonctionnalites/clients-sites",
+  },
+  current: "Planning & Équipes",
+  next: {
+    label: "Chantiers & Terrain",
+    href: "/fonctionnalites/chantiers-terrain",
+  },
+};
 
 function PlanningTeamsPage() {
   return (
     <main className="bg-white text-slate-900">
-      <section className="overflow-hidden border-b border-slate-100 bg-slate-50">
-        <div className="mx-auto max-w-7xl px-6 py-20 sm:py-24 lg:px-8 lg:py-28">
-          <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-600">
-                Planning & Équipes
-              </p>
+      {/* Hero */}
+      <section className="relative overflow-hidden border-b border-slate-200 bg-slate-50">
+        <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8 lg:py-28">
+          <div className="max-w-4xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-600">
+              Planning & Équipes
+            </p>
 
-              <h1 className="mt-5 max-w-3xl text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
-                Organisez vos journées, vos équipes et vos chantiers depuis un
-                seul planning.
-              </h1>
+            <h1 className="mt-6 text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
+              Organisez vos journées, vos équipes et vos chantiers depuis un
+              seul planning.
+            </h1>
 
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600 sm:text-xl">
-                Centralisez vos interventions, affectez vos équipes et préparez
-                vos journées sans jongler entre Excel, agendas, appels et
-                messages.
-              </p>
+            <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-600 sm:text-xl">
+              GreenPilot vous aide à coordonner les interventions, les équipes
+              et les ressources pour transformer votre planning en véritable
+              outil de pilotage opérationnel.
+            </p>
 
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Link
-                  to="/register"
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-emerald-700"
-                >
-                  Commencer avec GreenPilot
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+              <Link
+                to="/register"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-emerald-700"
+              >
+                Découvrir GreenPilot
+                <ArrowRight className="h-4 w-4" />
+              </Link>
 
-                <a
-                  href="#fonctionnement"
-                  className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-6 py-3.5 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
-                >
-                  Découvrir le fonctionnement
-                </a>
-              </div>
-            </div>
-
-            <div className="relative">
-              <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-xl shadow-slate-200/60">
-                <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-                  <div>
-                    <p className="text-sm font-semibold text-slate-900">
-                      Planning de la semaine
-                    </p>
-                    <p className="mt-1 text-xs text-slate-500">
-                      Équipes et interventions
-                    </p>
-                  </div>
-
-                  <CalendarDays className="h-5 w-5 text-emerald-600" />
-                </div>
-
-                <div className="mt-5 space-y-3">
-                  {[
-                    ["Lundi", "Équipe A", "Entretien résidence"],
-                    ["Mardi", "Équipe B", "Taille de haies"],
-                    ["Mercredi", "Équipe A", "Création paysagère"],
-                    ["Jeudi", "Équipe C", "Élagage"],
-                    ["Vendredi", "Équipe B", "Entretien parc"],
-                  ].map(([day, team, job]) => (
-                    <div
-                      key={`${day}-${team}`}
-                      className="grid grid-cols-[72px_1fr] gap-3 rounded-2xl bg-slate-50 p-3 sm:grid-cols-[80px_120px_1fr]"
-                    >
-                      <span className="text-sm font-semibold text-slate-700">
-                        {day}
-                      </span>
-                      <span className="hidden rounded-lg bg-emerald-50 px-2 py-1 text-xs font-medium text-emerald-700 sm:block">
-                        {team}
-                      </span>
-                      <span className="text-sm text-slate-600">{job}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <Link
+                to="/fonctionnalites"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-6 py-3.5 text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:bg-slate-50"
+              >
+                Voir toutes les fonctionnalités
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="py-20 sm:py-24">
+      {/* Problem */}
+      <section className="border-b border-slate-200 bg-white py-20 sm:py-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <SectionIntro
-            eyebrow="Le problème"
-            title="Quand le planning devient le centre de tous les imprévus."
-            description="Dans une entreprise de paysage, une journée bien organisée dépend de dizaines d'informations. Lorsqu'elles sont dispersées, chaque changement devient une source de friction."
-          />
+          <div className="max-w-3xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-600">
+              Le problème
+            </p>
 
-          <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
+              Un planning ne devrait pas devenir une source de stress.
+            </h2>
+
+            <p className="mt-5 text-lg leading-8 text-slate-600">
+              Dans une entreprise de paysage, le planning doit absorber les
+              équipes, les sites, les déplacements, les véhicules, les
+              équipements et les imprévus. Sans outil centralisé, chaque
+              changement peut devenir une nouvelle source de coordination.
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {problems.map((problem) => {
               const Icon = problem.icon;
 
               return (
-                <div
+                <article
                   key={problem.title}
-                  className="rounded-2xl border border-slate-200 bg-white p-6 transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-slate-200/50"
+                  className="rounded-2xl border border-slate-200 bg-white p-6"
                 >
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
                     <Icon className="h-5 w-5" />
                   </div>
 
-                  <h3 className="mt-5 text-lg font-semibold text-slate-900">
+                  <h3 className="mt-5 text-lg font-semibold text-slate-950">
                     {problem.title}
                   </h3>
 
-                  <p className="mt-3 text-sm leading-6 text-slate-600">
+                  <p className="mt-2 text-sm leading-6 text-slate-600">
                     {problem.description}
                   </p>
-                </div>
+                </article>
               );
             })}
           </div>
         </div>
       </section>
 
-      <section className="bg-slate-950 py-20 text-white sm:py-24">
+      {/* Solution */}
+      <section className="border-b border-slate-200 bg-slate-50 py-20 sm:py-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
+          <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-400">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-600">
                 La solution GreenPilot
               </p>
 
-              <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
-                Un planning pensé pour la réalité du terrain.
+              <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
+                Un planning pensé autour de votre activité terrain.
               </h2>
 
-              <p className="mt-5 max-w-xl text-lg leading-8 text-slate-300">
-                GreenPilot relie les chantiers, les équipes et les ressources
-                dans une même organisation opérationnelle.
+              <p className="mt-5 text-lg leading-8 text-slate-600">
+                GreenPilot rassemble les informations nécessaires à
+                l'organisation des interventions afin que le bureau et les
+                équipes terrain travaillent avec la même vision.
               </p>
 
               <div className="mt-8 space-y-4">
-                {[
-                  "Une seule vision de vos interventions",
-                  "Des équipes affectées aux bons chantiers",
-                  "Des ressources coordonnées",
-                  "Une continuité entre préparation et exécution",
-                ].map((item) => (
-                  <div key={item} className="flex items-start gap-3">
-                    <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-400" />
-                    <span className="text-slate-200">{item}</span>
+                {benefits.slice(0, 4).map((benefit) => (
+                  <div
+                    key={benefit}
+                    className="flex items-start gap-3 text-sm text-slate-700"
+                  >
+                    <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" />
+                    <span>{benefit}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="rounded-3xl border border-white/10 bg-white/[0.06] p-6">
-              <div className="grid gap-3 sm:grid-cols-2">
+            <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+              <div className="flex items-center justify-between border-b border-slate-200 pb-5">
+                <div>
+                  <p className="text-sm font-semibold text-slate-950">
+                    Planning de la semaine
+                  </p>
+                  <p className="mt-1 text-xs text-slate-500">
+                    Vue opérationnelle
+                  </p>
+                </div>
+
+                <CalendarDays className="h-5 w-5 text-emerald-600" />
+              </div>
+
+              <div className="mt-6 space-y-3">
                 {[
-                  ["Chantier", "Résidence Martin"],
-                  ["Date", "Mardi 15 septembre"],
-                  ["Équipe", "Équipe B"],
-                  ["Ressource", "Fourgon + matériel"],
-                ].map(([label, value]) => (
+                  ["Lundi", "3 interventions", "2 équipes"],
+                  ["Mardi", "4 interventions", "3 équipes"],
+                  ["Mercredi", "5 interventions", "3 équipes"],
+                  ["Jeudi", "4 interventions", "2 équipes"],
+                  ["Vendredi", "6 interventions", "4 équipes"],
+                ].map(([day, interventions, teams]) => (
                   <div
-                    key={label}
-                    className="rounded-2xl border border-white/10 bg-white/[0.04] p-4"
+                    key={day}
+                    className="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3"
                   >
-                    <p className="text-xs uppercase tracking-wider text-slate-400">
-                      {label}
-                    </p>
-                    <p className="mt-2 text-sm font-semibold text-white">
-                      {value}
+                    <div>
+                      <p className="text-sm font-semibold text-slate-900">
+                        {day}
+                      </p>
+                      <p className="mt-1 text-xs text-slate-500">
+                        {interventions}
+                      </p>
+                    </div>
+
+                    <p className="text-xs font-medium text-slate-500">
+                      {teams}
                     </p>
                   </div>
                 ))}
-              </div>
-
-              <div className="mt-3 rounded-2xl border border-emerald-400/20 bg-emerald-400/10 p-5">
-                <p className="text-xs font-semibold uppercase tracking-wider text-emerald-300">
-                  Organisation
-                </p>
-                <p className="mt-2 text-sm leading-6 text-slate-200">
-                  Toutes les informations essentielles sont regroupées avant
-                  l'intervention.
-                </p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="fonctionnement" className="scroll-mt-20 py-20 sm:py-24">
+      {/* Workflow */}
+      <section className="border-b border-slate-200 bg-white py-20 sm:py-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <SectionIntro
-            eyebrow="Le fonctionnement"
-            title="Du chantier planifié à l'équipe sur le terrain."
-            description="Chaque étape s'appuie sur les informations déjà présentes dans GreenPilot afin de réduire les ressaisies et les oublis."
-          />
+          <div className="max-w-3xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-600">
+              Comment ça fonctionne
+            </p>
 
-          <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {workflow.map((step) => (
-              <div
-                key={step.number}
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
+              De la planification à l'intervention.
+            </h2>
+
+            <p className="mt-5 text-lg leading-8 text-slate-600">
+              Le planning devient le point de coordination entre les
+              informations commerciales, les équipes et l'exécution terrain.
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+            {workflow.map((item) => (
+              <article
+                key={item.step}
                 className="relative rounded-2xl border border-slate-200 bg-white p-6"
               >
                 <span className="text-sm font-bold text-emerald-600">
-                  {step.number}
+                  {item.step}
                 </span>
 
-                <h3 className="mt-4 text-lg font-semibold text-slate-900">
-                  {step.title}
+                <h3 className="mt-5 text-lg font-semibold text-slate-950">
+                  {item.title}
                 </h3>
 
-                <p className="mt-3 text-sm leading-6 text-slate-600">
-                  {step.description}
+                <p className="mt-2 text-sm leading-6 text-slate-600">
+                  {item.description}
                 </p>
-              </div>
+              </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="bg-slate-50 py-20 sm:py-24">
+      {/* Capabilities */}
+      <section className="border-b border-slate-200 bg-slate-50 py-20 sm:py-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <SectionIntro
-            eyebrow="Capacités clés"
-            title="Tout ce qu'il faut pour garder le contrôle de vos journées."
-            description="GreenPilot transforme votre planning en véritable outil de coordination opérationnelle."
-          />
+          <div className="max-w-3xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-600">
+              Capacités clés
+            </p>
 
-          <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
+              Tout ce qu'il faut pour mieux organiser vos journées.
+            </h2>
+          </div>
+
+          <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {capabilities.map((capability) => {
               const Icon = capability.icon;
 
               return (
-                <div
+                <article
                   key={capability.title}
                   className="rounded-2xl border border-slate-200 bg-white p-6"
                 >
@@ -479,79 +451,99 @@ function PlanningTeamsPage() {
                     <Icon className="h-5 w-5" />
                   </div>
 
-                  <h3 className="mt-5 text-lg font-semibold text-slate-900">
+                  <h3 className="mt-5 text-lg font-semibold text-slate-950">
                     {capability.title}
                   </h3>
 
-                  <p className="mt-3 text-sm leading-6 text-slate-600">
+                  <p className="mt-2 text-sm leading-6 text-slate-600">
                     {capability.description}
                   </p>
-                </div>
+                </article>
               );
             })}
           </div>
         </div>
       </section>
 
-      <section className="py-20 sm:py-24">
-        <div className="mx-auto max-w-5xl px-6 lg:px-8">
-          <SectionIntro
-            eyebrow="Cas concret"
-            title="Une semaine entière devient lisible en quelques étapes."
-            description="Prenons une entreprise qui doit organiser huit interventions avec trois équipes. GreenPilot permet de transformer cette charge opérationnelle en plan d'action clair."
-          />
+      {/* Example */}
+      <section className="border-b border-slate-200 bg-white py-20 sm:py-24">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-600">
+                Cas concret
+              </p>
 
-          <div className="mt-14 space-y-4">
-            {exampleSteps.map((step, index) => (
-              <div
-                key={step.title}
-                className="flex gap-5 rounded-2xl border border-slate-200 bg-white p-5 sm:p-6"
-              >
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold text-white">
-                  {String(index + 1).padStart(2, "0")}
-                </div>
+              <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
+                Une journée organisée avant même le départ.
+              </h2>
 
-                <div>
-                  <h3 className="font-semibold text-slate-900">
-                    {step.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-6 text-slate-600">
-                    {step.description}
-                  </p>
-                </div>
+              <p className="mt-5 text-lg leading-8 text-slate-600">
+                Imaginez une équipe qui connaît son programme avant de monter
+                dans le véhicule. Les sites, horaires, prestations et
+                ressources sont déjà structurés.
+              </p>
+            </div>
+
+            <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6 sm:p-8">
+              <div className="space-y-4">
+                {exampleSteps.map((item) => (
+                  <div
+                    key={item.time}
+                    className="flex gap-4 rounded-2xl border border-slate-200 bg-white p-5"
+                  >
+                    <div className="w-14 shrink-0 text-sm font-bold text-emerald-600">
+                      {item.time}
+                    </div>
+
+                    <div>
+                      <h3 className="text-sm font-semibold text-slate-950">
+                        {item.title}
+                      </h3>
+
+                      <p className="mt-1 text-sm leading-6 text-slate-600">
+                        {item.description}
+                      </p>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="bg-slate-50 py-20 sm:py-24">
-        <div className="mx-auto max-w-6xl px-6 lg:px-8">
-          <SectionIntro
-            eyebrow="Avant / Après"
-            title="Passez d'une organisation dispersée à une vision maîtrisée."
-            description="Le véritable gain n'est pas seulement un planning plus joli. C'est une organisation qui reste cohérente lorsque l'activité augmente."
-          />
+      {/* Before / After */}
+      <section className="border-b border-slate-200 bg-slate-50 py-20 sm:py-24">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="max-w-3xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-600">
+              Avant / Après
+            </p>
 
-          <div className="mt-14 grid gap-6 md:grid-cols-2">
-            <div className="rounded-3xl border border-slate-200 bg-white p-8">
-              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-slate-500">
-                Avant
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
+              Passez d'une organisation dispersée à une organisation maîtrisée.
+            </h2>
+          </div>
+
+          <div className="mt-12 grid gap-6 lg:grid-cols-2">
+            <div className="rounded-3xl border border-slate-200 bg-white p-7">
+              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-slate-400">
+                Avant GreenPilot
               </p>
-
-              <h3 className="mt-4 text-2xl font-semibold text-slate-900">
-                Une organisation dispersée
-              </h3>
 
               <div className="mt-6 space-y-4">
                 {[
-                  "Planning Excel ou papier",
-                  "Informations dans les messages",
-                  "Appels pour confirmer les interventions",
+                  "Planning sur plusieurs supports",
+                  "Informations transmises par messages",
                   "Difficulté à suivre les changements",
-                  "Ressources gérées séparément",
+                  "Ressources coordonnées manuellement",
+                  "Vision limitée des journées",
                 ].map((item) => (
-                  <div key={item} className="flex gap-3 text-sm text-slate-600">
+                  <div
+                    key={item}
+                    className="flex items-start gap-3 text-sm text-slate-600"
+                  >
                     <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-300" />
                     {item}
                   </div>
@@ -559,25 +551,24 @@ function PlanningTeamsPage() {
               </div>
             </div>
 
-            <div className="rounded-3xl border border-emerald-100 bg-emerald-50/60 p-8">
-              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-emerald-700">
-                Après
+            <div className="rounded-3xl border border-emerald-100 bg-emerald-50/50 p-7">
+              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-emerald-600">
+                Avec GreenPilot
               </p>
-
-              <h3 className="mt-4 text-2xl font-semibold text-slate-900">
-                Une organisation centralisée
-              </h3>
 
               <div className="mt-6 space-y-4">
                 {[
-                  "Planning centralisé",
-                  "Équipes affectées aux chantiers",
-                  "Informations disponibles au même endroit",
-                  "Meilleure visibilité sur les changements",
-                  "Coordination des ressources",
+                  "Un planning centralisé",
+                  "Une vision claire des équipes",
+                  "Des interventions structurées",
+                  "Des ressources mieux coordonnées",
+                  "Une organisation plus facile à adapter",
                 ].map((item) => (
-                  <div key={item} className="flex gap-3 text-sm text-slate-700">
-                    <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-600" />
+                  <div
+                    key={item}
+                    className="flex items-start gap-3 text-sm text-slate-700"
+                  >
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
                     {item}
                   </div>
                 ))}
@@ -587,15 +578,26 @@ function PlanningTeamsPage() {
         </div>
       </section>
 
-      <section className="py-20 sm:py-24">
+      {/* Connected ecosystem */}
+      <section className="border-b border-slate-200 bg-white py-20 sm:py-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <SectionIntro
-            eyebrow="Un écosystème connecté"
-            title="Le planning ne fonctionne pas seul."
-            description="Chaque intervention s'inscrit dans un processus métier plus large. GreenPilot connecte les étapes pour éviter les ruptures entre bureau et terrain."
-          />
+          <div className="max-w-3xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-600">
+              Écosystème connecté
+            </p>
 
-          <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
+              Le planning fonctionne avec les autres modules GreenPilot.
+            </h2>
+
+            <p className="mt-5 text-lg leading-8 text-slate-600">
+              Une intervention ne vit pas isolément. Elle s'appuie sur un
+              client, un site, un devis, des ressources et des informations
+              terrain.
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {connections.map((connection) => {
               const Icon = connection.icon;
 
@@ -603,18 +605,21 @@ function PlanningTeamsPage() {
                 <Link
                   key={connection.title}
                   to={connection.href}
-                  className="group rounded-2xl border border-slate-200 bg-white p-6 transition hover:-translate-y-0.5 hover:border-emerald-200 hover:shadow-lg hover:shadow-slate-200/50"
+                  className="group rounded-2xl border border-slate-200 bg-white p-6 transition hover:border-emerald-200 hover:bg-emerald-50/40"
                 >
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-slate-100 text-slate-700 transition group-hover:bg-emerald-50 group-hover:text-emerald-600">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-slate-100 text-slate-600 transition group-hover:bg-emerald-100 group-hover:text-emerald-600">
                     <Icon className="h-5 w-5" />
                   </div>
 
-                  <h3 className="mt-5 flex items-center gap-2 text-lg font-semibold text-slate-900">
-                    {connection.title}
-                    <ArrowRight className="h-4 w-4 opacity-0 transition group-hover:translate-x-1 group-hover:opacity-100" />
-                  </h3>
+                  <div className="mt-5 flex items-center justify-between gap-4">
+                    <h3 className="text-lg font-semibold text-slate-950">
+                      {connection.title}
+                    </h3>
 
-                  <p className="mt-3 text-sm leading-6 text-slate-600">
+                    <ArrowRight className="h-4 w-4 shrink-0 text-emerald-600 transition group-hover:translate-x-1" />
+                  </div>
+
+                  <p className="mt-2 text-sm leading-6 text-slate-600">
                     {connection.description}
                   </p>
                 </Link>
@@ -624,76 +629,137 @@ function PlanningTeamsPage() {
         </div>
       </section>
 
-      <section className="bg-slate-950 py-20 text-white sm:py-24">
-        <div className="mx-auto max-w-4xl px-6 text-center lg:px-8">
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-400">
-            Les bénéfices
-          </p>
+      {/* Benefits */}
+      <section className="border-b border-slate-200 bg-slate-50 py-20 sm:py-24">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-600">
+                Les bénéfices
+              </p>
 
-          <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
-            Une meilleure organisation, chaque jour.
-          </h2>
+              <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
+                Un meilleur planning, c'est une meilleure entreprise.
+              </h2>
 
-          <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-300">
-            GreenPilot vous aide à passer moins de temps à organiser
-            l'organisation et plus de temps à piloter votre activité.
-          </p>
+              <p className="mt-5 text-lg leading-8 text-slate-600">
+                Lorsque les équipes savent où elles doivent être, avec quelles
+                ressources et pour quelle intervention, l'organisation devient
+                plus fiable.
+              </p>
+            </div>
 
-          <div className="mx-auto mt-10 grid max-w-2xl gap-4 text-left sm:grid-cols-2">
-            {benefits.map((benefit) => (
-              <div key={benefit} className="flex gap-3">
-                <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-400" />
-                <span className="text-sm text-slate-200">{benefit}</span>
-              </div>
-            ))}
+            <div className="grid gap-4 sm:grid-cols-2">
+              {benefits.map((benefit) => (
+                <div
+                  key={benefit}
+                  className="flex items-start gap-3 rounded-2xl border border-slate-200 bg-white p-5"
+                >
+                  <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" />
+                  <span className="text-sm font-medium leading-6 text-slate-700">
+                    {benefit}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="border-b border-slate-100 py-20 sm:py-24">
+      {/* Strategic message */}
+      <section className="border-b border-slate-200 bg-white py-20 sm:py-24">
         <div className="mx-auto max-w-4xl px-6 text-center lg:px-8">
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-600">
-            Message stratégique
+            Notre vision
           </p>
 
-          <blockquote className="mt-6 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
+          <h2 className="mt-5 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
+            Le planning doit devenir un outil de décision.
+          </h2>
+
+          <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-slate-600">
             Un bon planning ne sert pas seulement à savoir qui travaille où.
             Il permet de mieux utiliser chaque heure, chaque équipe et chaque
             ressource.
-          </blockquote>
-
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-slate-600">
-            C'est cette organisation qui permet de transformer une activité
-            opérationnelle complexe en entreprise réellement pilotable.
           </p>
         </div>
       </section>
 
-      <section className="bg-emerald-600 py-20 text-white sm:py-24">
+      {/* Module navigation */}
+      <section className="border-y border-slate-200 bg-white py-8">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="grid gap-4 md:grid-cols-3 md:items-center">
+            <Link
+              to={moduleNavigation.previous.href}
+              className="group rounded-2xl border border-slate-200 p-5 transition hover:border-emerald-200 hover:bg-emerald-50/40"
+            >
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
+                Module précédent
+              </p>
+
+              <div className="mt-2 flex items-center gap-2 text-sm font-semibold text-slate-900">
+                <ArrowRight className="h-4 w-4 rotate-180 text-emerald-600 transition group-hover:-translate-x-1" />
+                {moduleNavigation.previous.label}
+              </div>
+            </Link>
+
+            <div className="rounded-2xl bg-slate-50 p-5 text-center">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-emerald-600">
+                Module actuel
+              </p>
+
+              <p className="mt-2 text-sm font-semibold text-slate-900">
+                {moduleNavigation.current}
+              </p>
+            </div>
+
+            <Link
+              to={moduleNavigation.next.href}
+              className="group rounded-2xl border border-slate-200 p-5 text-right transition hover:border-emerald-200 hover:bg-emerald-50/40"
+            >
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
+                Module suivant
+              </p>
+
+              <div className="mt-2 flex items-center justify-end gap-2 text-sm font-semibold text-slate-900">
+                {moduleNavigation.next.label}
+                <ArrowRight className="h-4 w-4 text-emerald-600 transition group-hover:translate-x-1" />
+              </div>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="bg-emerald-600 py-20 sm:py-24">
         <div className="mx-auto max-w-4xl px-6 text-center lg:px-8">
-          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-100">
+            Passez à l'action
+          </p>
+
+          <h2 className="mt-5 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
             Passez d'un planning dispersé à une organisation maîtrisée.
           </h2>
 
           <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-emerald-50">
-            Centralisez vos interventions, coordonnez vos équipes et préparez
-            vos journées avec GreenPilot.
+            GreenPilot vous aide à structurer vos interventions, coordonner vos
+            équipes et garder une vision claire de votre activité.
           </p>
 
-          <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+          <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
             <Link
               to="/register"
               className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-3.5 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-50"
             >
-              Commencer avec GreenPilot
+              Découvrir GreenPilot
               <ArrowRight className="h-4 w-4" />
             </Link>
 
             <Link
-              to="/fonctionnalites/devis"
-              className="inline-flex items-center justify-center rounded-xl border border-white/30 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-white/10"
+              to="/fonctionnalites"
+              className="inline-flex items-center justify-center rounded-xl border border-emerald-400 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-emerald-500"
             >
-              Découvrir les Devis
+              Explorer les fonctionnalités
             </Link>
           </div>
         </div>
