@@ -65,6 +65,7 @@ import QuotesFeaturePage from "../pages/features/QuotesFeaturePage";
 import PlanningTeamsPage from "../pages/features/PlanningTeamsPage";
 import JobsFieldPage from "../pages/features/JobsFieldPage";
 import FacturationPage from "../pages/features/FacturationPage";
+import PilotageProfitabilityPage from "../pages/features/PilotageProfitabilityPage";
 
 
 
@@ -92,6 +93,7 @@ export default function AppRouter() {
         <Route path="/fonctionnalites/planning-equipes" element={<PlanningTeamsPage />} />
         <Route path="/fonctionnalites/chantiers-terrain" element={<JobsFieldPage />} />
         <Route path="/fonctionnalites/facturation" element={<FacturationPage />} />
+        <Route path="/fonctionnalites/pilotage-rentabilite" element={<PilotageProfitabilityPage />} />
 
         <Route path="/mentions-legales" element={<LegalNoticePage />} />
         <Route path="/confidentialite" element={<PrivacyPage />} />
