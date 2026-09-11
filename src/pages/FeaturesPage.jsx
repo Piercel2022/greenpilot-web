@@ -110,6 +110,10 @@ const features = [
 const featureRoutes = {
   "clients-sites": "/fonctionnalites/clients-sites",
   "devis": "/fonctionnalites/devis",
+  "planning-equipes": "/fonctionnalites/planning-equipes",
+  "chantiers-terrain": "/fonctionnalites/chantiers-terrain",
+  "facturation": "/fonctionnalites/facturation",
+  "pilotage": "/fonctionnalites/pilotage-rentabilite",
 };
 
 const businessTypes = [
