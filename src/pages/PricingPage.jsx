@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 const plans = [
   {
     name: "Solo",
-    description: "Pour les indépendants et les petites activités.",
+    description:
+      "Pour les indépendants et les petites entreprises qui veulent structurer leur activité.",
     price: "29",
     features: [
       "Clients & Sites",
@@ -14,10 +15,12 @@ const plans = [
       "Rapports",
     ],
     highlighted: false,
+    cta: "Commencer avec GreenPilot",
   },
   {
     name: "Équipe",
-    description: "Pour les entreprises avec plusieurs collaborateurs.",
+    description:
+      "Pour les entreprises avec plusieurs collaborateurs et des interventions à coordonner.",
     price: "59",
     features: [
       "Tout le contenu de Solo",
@@ -28,10 +31,12 @@ const plans = [
       "Suivi terrain",
     ],
     highlighted: true,
+    cta: "Choisir Équipe",
   },
   {
     name: "Entreprise",
-    description: "Pour les structures avec plusieurs équipes.",
+    description:
+      "Pour les structures avec plusieurs équipes qui souhaitent piloter leur activité avec plus de visibilité.",
     price: "99",
     features: [
       "Tout le contenu d'Équipe",
@@ -42,6 +47,7 @@ const plans = [
       "Accompagnement renforcé",
     ],
     highlighted: false,
+    cta: "Choisir Entreprise",
   },
 ];
 
@@ -49,7 +55,7 @@ const faqs = [
   {
     question: "Puis-je changer d'offre ?",
     answer:
-      "Oui. Votre offre pourra évoluer avec votre entreprise afin de vous permettre d'utiliser UseGreenPilot avec un niveau de gestion adapté à votre activité.",
+      "Oui. Votre offre pourra évoluer avec votre entreprise afin de vous permettre d'utiliser GreenPilot avec un niveau de gestion adapté à votre activité.",
   },
   {
     question: "Puis-je résilier mon abonnement ?",
@@ -62,14 +68,24 @@ const faqs = [
       "Le nombre d'utilisateurs dépendra de l'offre choisie et du fonctionnement de votre entreprise. Les limites applicables seront précisées avant la souscription.",
   },
   {
-    question: "Mes données sont-elles sécurisées ?",
+    question: "Qu'est-ce que l'offre Done For You ?",
     answer:
-      "UseGreenPilot est conçu pour centraliser les données de votre entreprise dans un environnement sécurisé. Les informations relatives au traitement et à la protection des données sont détaillées dans notre politique de confidentialité.",
+      "L'offre Done For You vous permet de déléguer la mise en place initiale de GreenPilot. Nous vous accompagnons dans la configuration de votre espace, l'organisation de vos données et la prise en main de la solution.",
   },
   {
-    question: "Puis-je utiliser UseGreenPilot depuis mon téléphone ?",
+    question: "Puis-je importer mes données existantes ?",
     answer:
-      "UseGreenPilot est conçu comme une application web accessible depuis les appareils compatibles avec un navigateur moderne. L'expérience mobile sera progressivement améliorée avec l'évolution du produit.",
+      "Oui. L'import de vos données existantes pourra être étudié dans le cadre de l'accompagnement Done For You, notamment pour vos clients, sites et informations nécessaires au démarrage.",
+  },
+  {
+    question: "Mes données sont-elles sécurisées ?",
+    answer:
+      "GreenPilot est conçu pour centraliser les données de votre entreprise dans un environnement sécurisé. Les informations relatives au traitement et à la protection des données sont détaillées dans notre politique de confidentialité.",
+  },
+  {
+    question: "Puis-je utiliser GreenPilot depuis mon téléphone ?",
+    answer:
+      "GreenPilot est conçu comme une application web accessible depuis les appareils compatibles avec un navigateur moderne. L'expérience mobile sera progressivement améliorée avec l'évolution du produit.",
   },
 ];
 
@@ -83,13 +99,12 @@ function PricingPage() {
           </p>
 
           <h1 className="mt-4 text-4xl font-bold tracking-tight text-slate-950 sm:text-5xl">
-            Des outils simples pour mieux piloter votre entreprise.
+            Choisissez la façon dont vous voulez piloter votre entreprise.
           </h1>
 
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-            Choisissez l'offre adaptée à la taille de votre activité et
-            centralisez vos clients, sites, devis, équipes et chantiers dans
-            UseGreenPilot.
+            Utilisez GreenPilot comme logiciel de gestion ou laissez-nous vous
+            accompagner dans sa mise en place pour démarrer plus rapidement.
           </p>
         </div>
       </section>
@@ -124,6 +139,7 @@ function PricingPage() {
                   <span className="text-5xl font-bold tracking-tight text-slate-950">
                     {plan.price}€
                   </span>
+
                   <span className="pb-2 text-sm text-slate-500">/ mois</span>
                 </div>
 
@@ -135,7 +151,7 @@ function PricingPage() {
                       : "border border-slate-300 text-slate-900 hover:border-slate-400 hover:bg-slate-50"
                   }`}
                 >
-                  Commencer avec UseGreenPilot
+                  {plan.cta}
                 </Link>
 
                 <div className="mt-8 border-t border-slate-200 pt-7">
@@ -149,12 +165,10 @@ function PricingPage() {
                         key={feature}
                         className="flex gap-3 text-sm leading-6 text-slate-600"
                       >
-                        <span
-                          className="mt-1 text-emerald-600"
-                          aria-hidden="true"
-                        >
+                        <span className="mt-1 text-emerald-600" aria-hidden="true">
                           ✓
                         </span>
+
                         <span>{feature}</span>
                       </li>
                     ))}
@@ -163,6 +177,88 @@ function PricingPage() {
               </article>
             ))}
           </div>
+
+          <div className="mt-10 rounded-3xl border border-emerald-200 bg-emerald-50 p-8 sm:p-10">
+            <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
+              <div>
+                <div className="flex flex-wrap items-center gap-3">
+                  <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-700">
+                    Mise en place accompagnée
+                  </p>
+
+                  <span className="rounded-full border border-emerald-200 bg-white px-3 py-1 text-xs font-semibold text-emerald-700">
+                    Done For You
+                  </span>
+                </div>
+
+                <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
+                  Vous n'avez pas le temps de tout configurer ?
+                </h2>
+
+                <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600">
+                  Nous vous aidons à mettre GreenPilot en place pour votre
+                  entreprise : organisation des données, configuration
+                  initiale, paramétrage et accompagnement au démarrage.
+                </p>
+
+                <div className="mt-6 grid gap-3 text-sm text-slate-700 sm:grid-cols-2">
+                  <div className="flex gap-3">
+                    <span className="text-emerald-600" aria-hidden="true">
+                      ✓
+                    </span>
+                    <span>Configuration initiale</span>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <span className="text-emerald-600" aria-hidden="true">
+                      ✓
+                    </span>
+                    <span>Import de vos données existantes</span>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <span className="text-emerald-600" aria-hidden="true">
+                      ✓
+                    </span>
+                    <span>Paramétrage selon votre organisation</span>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <span className="text-emerald-600" aria-hidden="true">
+                      ✓
+                    </span>
+                    <span>Accompagnement à la prise en main</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="lg:min-w-52">
+                <Link
+                  to="/contact"
+                  className="block rounded-xl bg-slate-950 px-6 py-3 text-center text-sm font-semibold text-white transition hover:bg-slate-800"
+                >
+                  Parler de votre projet
+                </Link>
+
+                <p className="mt-3 text-center text-xs leading-5 text-slate-500">
+                  Mise en place personnalisée · Sur devis
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-8 text-center">
+            <p className="text-sm text-slate-500">
+              Vous avez une organisation ou des besoins spécifiques ?
+            </p>
+
+            <Link
+              to="/contact"
+              className="mt-2 inline-flex text-sm font-semibold text-emerald-700 hover:text-emerald-600"
+            >
+              Échanger avec GreenPilot →
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -170,12 +266,18 @@ function PricingPage() {
         <div className="mx-auto max-w-6xl px-6 lg:px-8">
           <div className="mx-auto max-w-3xl text-center">
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-600">
-              Pourquoi UseGreenPilot
+              Pourquoi GreenPilot
             </p>
 
             <h2 className="mt-3 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
               Pas besoin de multiplier les outils.
             </h2>
+
+            <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-slate-600">
+              GreenPilot rassemble les informations essentielles de votre
+              activité pour vous aider à centraliser, organiser et piloter
+              votre entreprise.
+            </p>
           </div>
 
           <div className="mt-12 grid gap-8 md:grid-cols-3">
@@ -183,6 +285,7 @@ function PricingPage() {
               <h3 className="text-lg font-semibold text-slate-950">
                 Centralisez
               </h3>
+
               <p className="mt-3 text-sm leading-7 text-slate-600">
                 Retrouvez les informations de votre activité au même endroit,
                 des clients aux sites et aux chantiers.
@@ -193,6 +296,7 @@ function PricingPage() {
               <h3 className="text-lg font-semibold text-slate-950">
                 Organisez
               </h3>
+
               <p className="mt-3 text-sm leading-7 text-slate-600">
                 Donnez à vos équipes une vision claire des interventions, des
                 chantiers et des ressources.
@@ -200,7 +304,10 @@ function PricingPage() {
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold text-slate-950">Pilotez</h3>
+              <h3 className="text-lg font-semibold text-slate-950">
+                Pilotez
+              </h3>
+
               <p className="mt-3 text-sm leading-7 text-slate-600">
                 Suivez votre activité et utilisez vos données pour prendre de
                 meilleures décisions.
@@ -228,6 +335,7 @@ function PricingPage() {
                 <summary className="cursor-pointer list-none font-semibold text-slate-900">
                   <span className="flex items-center justify-between gap-6">
                     {faq.question}
+
                     <span
                       className="text-xl text-slate-400 transition-transform group-open:rotate-45"
                       aria-hidden="true"
@@ -248,13 +356,18 @@ function PricingPage() {
 
       <section className="bg-slate-900 py-20 sm:py-24">
         <div className="mx-auto max-w-4xl px-6 text-center lg:px-8">
-          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-400">
+            Commencez simplement
+          </p>
+
+          <h2 className="mt-3 text-3xl font-bold tracking-tight text-white sm:text-4xl">
             Prêt à mieux piloter votre activité ?
           </h2>
 
           <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-300">
-            Découvrez comment UseGreenPilot peut simplifier votre quotidien et vous
-            aider à garder le contrôle de votre activité.
+            Utilisez GreenPilot pour centraliser votre activité ou échangez
+            avec nous pour mettre en place une solution adaptée à votre
+            entreprise.
           </p>
 
           <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
@@ -262,14 +375,14 @@ function PricingPage() {
               to="/register"
               className="rounded-xl bg-emerald-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-emerald-400"
             >
-              Commencer avec UseGreenPilot
+              Commencer avec GreenPilot
             </Link>
 
             <Link
               to="/contact"
               className="rounded-xl border border-slate-600 px-6 py-3 text-sm font-semibold text-white transition hover:border-slate-400"
             >
-              Contacter UseGreenPilot
+              Parler de votre projet
             </Link>
           </div>
         </div>
