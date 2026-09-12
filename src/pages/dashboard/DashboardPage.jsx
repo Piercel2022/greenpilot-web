@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import {
   AlertCircle,
@@ -42,6 +43,8 @@ const statCards = [
     label: "Clients",
     description: "Clients enregistrés",
     icon: UsersRound,
+    iconColor: "text-blue-600",
+    iconBg: "bg-blue-50",
     href: "/customers",
   },
   {
@@ -49,6 +52,8 @@ const statCards = [
     label: "Sites",
     description: "Sites gérés",
     icon: MapPin,
+    iconColor: "text-cyan-600",
+    iconBg: "bg-cyan-50",
     href: "/sites",
   },
   {
@@ -56,6 +61,8 @@ const statCards = [
     label: "Interventions",
     description: "Interventions enregistrées",
     icon: CalendarDays,
+    iconColor: "text-emerald-600",
+    iconBg: "bg-emerald-50",
     href: "/jobs",
   },
   {
@@ -63,6 +70,8 @@ const statCards = [
     label: "Devis",
     description: "Devis enregistrés",
     icon: FileText,
+    iconColor: "text-blue-700",
+    iconBg: "bg-blue-50",
     href: "/quotes",
   },
 ];
@@ -72,18 +81,24 @@ const quickActions = [
     label: "Nouveau client",
     description: "Ajouter un client",
     icon: UsersRound,
+    iconColor: "text-blue-600",
+    iconBg: "bg-blue-50",
     href: "/customers/new",
   },
   {
     label: "Nouveau devis",
     description: "Créer un devis",
     icon: FileText,
+    iconColor: "text-blue-700",
+    iconBg: "bg-blue-50",
     href: "/quotes/new",
   },
   {
     label: "Nouvelle intervention",
     description: "Planifier une intervention",
     icon: CalendarDays,
+    iconColor: "text-emerald-600",
+    iconBg: "bg-emerald-50",
     href: "/jobs/new",
   },
 ];
@@ -141,7 +156,10 @@ export default function DashboardPage() {
           reports: normalizeCollection(reportsResponse),
         });
       } catch (requestError) {
-        console.error("Erreur lors du chargement du dashboard :", requestError);
+        console.error(
+          "Erreur lors du chargement du dashboard :",
+          requestError
+        );
 
         if (mounted) {
           setError(
@@ -175,6 +193,8 @@ export default function DashboardPage() {
       value: data.invoices.length,
       description: "Factures enregistrées",
       icon: ReceiptText,
+      iconColor: "text-emerald-700",
+      iconBg: "bg-emerald-50",
       href: "/invoices",
     },
     {
@@ -182,6 +202,8 @@ export default function DashboardPage() {
       value: data.reports.length,
       description: "Rapports d'intervention",
       icon: ClipboardList,
+      iconColor: "text-violet-600",
+      iconBg: "bg-violet-50",
       href: "/reports",
     },
   ];
@@ -211,6 +233,7 @@ export default function DashboardPage() {
 
             <div>
               <p className="text-sm font-medium">{error}</p>
+
               <p className="mt-1 text-xs text-red-600">
                 Vérifiez votre connexion et vos droits d'accès à l'API.
               </p>
@@ -231,8 +254,10 @@ export default function DashboardPage() {
                 className="group rounded-xl border border-slate-200 bg-white p-5 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md"
               >
                 <div className="flex items-start justify-between">
-                  <div className="rounded-lg bg-slate-100 p-2.5">
-                    <Icon className="h-5 w-5 text-slate-700" />
+                  <div
+                    className={`rounded-lg p-2.5 ${stat.iconBg} ${stat.iconColor} transition group-hover:scale-105`}
+                  >
+                    <Icon className="h-5 w-5" strokeWidth={1.8} />
                   </div>
 
                   <ArrowRight className="h-4 w-4 text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-slate-500" />
@@ -267,8 +292,10 @@ export default function DashboardPage() {
                 className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white p-5 text-left shadow-sm transition hover:border-slate-300 hover:shadow-md"
               >
                 <div className="flex items-center gap-4">
-                  <div className="rounded-lg bg-slate-100 p-2.5">
-                    <Icon className="h-5 w-5 text-slate-700" />
+                  <div
+                    className={`rounded-lg p-2.5 ${stat.iconBg} ${stat.iconColor} transition group-hover:scale-105`}
+                  >
+                    <Icon className="h-5 w-5" strokeWidth={1.8} />
                   </div>
 
                   <div>
@@ -309,13 +336,19 @@ export default function DashboardPage() {
             </div>
 
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              {/* Interventions */}
               <button
                 type="button"
                 onClick={() => navigate("/jobs")}
-                className="rounded-lg border border-slate-200 p-4 text-left transition hover:bg-slate-50"
+                className="group rounded-lg border border-slate-200 p-4 text-left transition hover:border-emerald-200 hover:bg-emerald-50/40"
               >
                 <div className="flex items-center gap-3">
-                  <CalendarDays className="h-5 w-5 text-slate-500" />
+                  <div className="rounded-lg bg-emerald-50 p-2">
+                    <CalendarDays
+                      className="h-5 w-5 text-emerald-600"
+                      strokeWidth={1.8}
+                    />
+                  </div>
 
                   <div>
                     <p className="text-sm font-medium text-slate-900">
@@ -333,13 +366,19 @@ export default function DashboardPage() {
                 </div>
               </button>
 
+              {/* Devis */}
               <button
                 type="button"
                 onClick={() => navigate("/quotes")}
-                className="rounded-lg border border-slate-200 p-4 text-left transition hover:bg-slate-50"
+                className="group rounded-lg border border-slate-200 p-4 text-left transition hover:border-blue-200 hover:bg-blue-50/40"
               >
                 <div className="flex items-center gap-3">
-                  <FileText className="h-5 w-5 text-slate-500" />
+                  <div className="rounded-lg bg-blue-50 p-2">
+                    <FileText
+                      className="h-5 w-5 text-blue-700"
+                      strokeWidth={1.8}
+                    />
+                  </div>
 
                   <div>
                     <p className="text-sm font-medium text-slate-900">
@@ -357,13 +396,19 @@ export default function DashboardPage() {
                 </div>
               </button>
 
+              {/* Facturation */}
               <button
                 type="button"
                 onClick={() => navigate("/invoices")}
-                className="rounded-lg border border-slate-200 p-4 text-left transition hover:bg-slate-50"
+                className="group rounded-lg border border-slate-200 p-4 text-left transition hover:border-emerald-200 hover:bg-emerald-50/40"
               >
                 <div className="flex items-center gap-3">
-                  <ReceiptText className="h-5 w-5 text-slate-500" />
+                  <div className="rounded-lg bg-emerald-50 p-2">
+                    <ReceiptText
+                      className="h-5 w-5 text-emerald-700"
+                      strokeWidth={1.8}
+                    />
+                  </div>
 
                   <div>
                     <p className="text-sm font-medium text-slate-900">
@@ -381,13 +426,19 @@ export default function DashboardPage() {
                 </div>
               </button>
 
+              {/* Rapports */}
               <button
                 type="button"
                 onClick={() => navigate("/reports")}
-                className="rounded-lg border border-slate-200 p-4 text-left transition hover:bg-slate-50"
+                className="group rounded-lg border border-slate-200 p-4 text-left transition hover:border-violet-200 hover:bg-violet-50/40"
               >
                 <div className="flex items-center gap-3">
-                  <ClipboardList className="h-5 w-5 text-slate-500" />
+                  <div className="rounded-lg bg-violet-50 p-2">
+                    <ClipboardList
+                      className="h-5 w-5 text-violet-600"
+                      strokeWidth={1.8}
+                    />
+                  </div>
 
                   <div>
                     <p className="text-sm font-medium text-slate-900">
@@ -428,8 +479,10 @@ export default function DashboardPage() {
                     onClick={() => navigate(action.href)}
                     className="group flex w-full items-center gap-3 rounded-lg border border-slate-200 px-4 py-3 text-left transition hover:border-slate-300 hover:bg-slate-50"
                   >
-                    <div className="rounded-md bg-slate-100 p-2">
-                      <Icon className="h-4 w-4 text-slate-700" />
+                    <div
+                      className={`rounded-lg p-2 ${action.iconBg} ${action.iconColor} transition group-hover:scale-105`}
+                    >
+                      <Icon className="h-4 w-4" strokeWidth={1.8} />
                     </div>
 
                     <div className="flex-1">
@@ -448,6 +501,7 @@ export default function DashboardPage() {
               })}
             </div>
 
+            {/* Nouvelle facture */}
             <button
               type="button"
               onClick={() => navigate("/invoices/new")}
