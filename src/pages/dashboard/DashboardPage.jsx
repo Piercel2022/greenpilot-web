@@ -1,120 +1,47 @@
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   AlertCircle,
   ArrowRight,
   CalendarDays,
   ClipboardList,
   FileText,
+  MapPin,
   Plus,
   ReceiptText,
   UsersRound,
-  MapPin,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-import { useAuth } from "../../context/useAuth";
-import { getCustomers } from "../../services/customers";
-import { getSites } from "../../services/sites";
-import { getQuotes } from "../../services/quotes";
-import { getJobs } from "../../services/jobs";
-import { getInvoices } from "../../services/invoices";
-import { getJobReports } from "../../services/jobReports";
+import { AuthContext } from "../../context/auth-context";
+import api from "../../services/api";
 
-const normalizeCollection = (data) => {
-  if (Array.isArray(data)) {
-    return data;
+function normalizeCollection(response) {
+  if (Array.isArray(response)) {
+    return response;
   }
 
-  if (Array.isArray(data?.data)) {
-    return data.data;
+  if (Array.isArray(response?.data)) {
+    return response.data;
   }
 
-  if (Array.isArray(data?.items)) {
-    return data.items;
+  if (Array.isArray(response?.data?.data)) {
+    return response.data.data;
   }
 
   return [];
-};
+}
 
-const statCards = [
-  {
-    key: "customers",
-    label: "Clients",
-    description: "Clients enregistrés",
-    icon: UsersRound,
-    iconColor: "text-blue-600",
-    iconBg: "bg-blue-50",
-    href: "/customers",
-  },
-  {
-    key: "sites",
-    label: "Sites",
-    description: "Sites gérés",
-    icon: MapPin,
-    iconColor: "text-cyan-600",
-    iconBg: "bg-cyan-50",
-    href: "/sites",
-  },
-  {
-    key: "jobs",
-    label: "Interventions",
-    description: "Interventions enregistrées",
-    icon: CalendarDays,
-    iconColor: "text-emerald-600",
-    iconBg: "bg-emerald-50",
-    href: "/jobs",
-  },
-  {
-    key: "quotes",
-    label: "Devis",
-    description: "Devis enregistrés",
-    icon: FileText,
-    iconColor: "text-blue-700",
-    iconBg: "bg-blue-50",
-    href: "/quotes",
-  },
-];
-
-const quickActions = [
-  {
-    label: "Nouveau client",
-    description: "Ajouter un client",
-    icon: UsersRound,
-    iconColor: "text-blue-600",
-    iconBg: "bg-blue-50",
-    href: "/customers/new",
-  },
-  {
-    label: "Nouveau devis",
-    description: "Créer un devis",
-    icon: FileText,
-    iconColor: "text-blue-700",
-    iconBg: "bg-blue-50",
-    href: "/quotes/new",
-  },
-  {
-    label: "Nouvelle intervention",
-    description: "Planifier une intervention",
-    icon: CalendarDays,
-    iconColor: "text-emerald-600",
-    iconBg: "bg-emerald-50",
-    href: "/jobs/new",
-  },
-];
-
-export default function DashboardPage() {
-  const { user } = useAuth();
+ function DashboardPage() {
   const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
 
-  const [data, setData] = useState({
-    customers: [],
-    sites: [],
-    jobs: [],
-    quotes: [],
-    invoices: [],
-    reports: [],
-  });
+  const [customers, setCustomers] = useState([]);
+  const [sites, setSites] = useState([]);
+  const [jobs, setJobs] = useState([]);
+  const [quotes, setQuotes] = useState([]);
+  const [invoices, setInvoices] = useState([]);
+  const [reports, setReports] = useState([]);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -122,56 +49,53 @@ export default function DashboardPage() {
   useEffect(() => {
     let mounted = true;
 
-    const loadDashboard = async () => {
-      setLoading(true);
-      setError("");
-
+    async function loadDashboard() {
       try {
+        setLoading(true);
+        setError("");
+
         const [
           customersResponse,
           sitesResponse,
-          jobsResponse,
           quotesResponse,
+          jobsResponse,
           invoicesResponse,
           reportsResponse,
         ] = await Promise.all([
-          getCustomers(),
-          getSites(),
-          getJobs(),
-          getQuotes(),
-          getInvoices(),
-          getJobReports(),
+          api.get("/customers"),
+          api.get("/sites"),
+          api.get("/quotes"),
+          api.get("/jobs"),
+          api.get("/invoices"),
+          api.get("/job_reports"),
         ]);
 
         if (!mounted) {
           return;
         }
 
-        setData({
-          customers: normalizeCollection(customersResponse),
-          sites: normalizeCollection(sitesResponse),
-          jobs: normalizeCollection(jobsResponse),
-          quotes: normalizeCollection(quotesResponse),
-          invoices: normalizeCollection(invoicesResponse),
-          reports: normalizeCollection(reportsResponse),
-        });
+        setCustomers(normalizeCollection(customersResponse));
+        setSites(normalizeCollection(sitesResponse));
+        setQuotes(normalizeCollection(quotesResponse));
+        setJobs(normalizeCollection(jobsResponse));
+        setInvoices(normalizeCollection(invoicesResponse));
+        setReports(normalizeCollection(reportsResponse));
       } catch (requestError) {
-        console.error(
-          "Erreur lors du chargement du dashboard :",
-          requestError
-        );
-
-        if (mounted) {
-          setError(
-            "Impossible de charger les données du dashboard. Veuillez réessayer."
-          );
+        if (!mounted) {
+          return;
         }
+
+        setError(
+          requestError?.response?.data?.message ||
+            requestError?.message ||
+            "Impossible de charger les données du tableau de bord."
+        );
       } finally {
         if (mounted) {
           setLoading(false);
         }
       }
-    };
+    }
 
     loadDashboard();
 
@@ -180,339 +104,377 @@ export default function DashboardPage() {
     };
   }, []);
 
-  const stats = {
-    customers: data.customers.length,
-    sites: data.sites.length,
-    jobs: data.jobs.length,
-    quotes: data.quotes.length,
-  };
+  const stats = [
+    {
+      label: "Clients",
+      value: customers.length,
+      description: "Clients enregistrés",
+      icon: UsersRound,
+      iconClass: "text-blue-600",
+      iconBg: "bg-blue-50",
+      path: "/customers",
+    },
+    {
+      label: "Sites",
+      value: sites.length,
+      description: "Sites suivis",
+      icon: MapPin,
+      iconClass: "text-emerald-600",
+      iconBg: "bg-emerald-50",
+      path: "/sites",
+    },
+    {
+      label: "Chantiers",
+      value: jobs.length,
+      description: "Chantiers enregistrés",
+      icon: ClipboardList,
+      iconClass: "text-amber-600",
+      iconBg: "bg-amber-50",
+      path: "/jobs",
+    },
+    {
+      label: "Devis",
+      value: quotes.length,
+      description: "Devis enregistrés",
+      icon: FileText,
+      iconClass: "text-violet-600",
+      iconBg: "bg-violet-50",
+      path: "/quotes",
+    },
+  ];
 
   const secondaryStats = [
     {
       label: "Factures",
-      value: data.invoices.length,
-      description: "Factures enregistrées",
+      value: invoices.length,
       icon: ReceiptText,
-      iconColor: "text-emerald-700",
-      iconBg: "bg-emerald-50",
-      href: "/invoices",
+      iconClass: "text-rose-600",
+      iconBg: "bg-rose-50",
+      path: "/invoices",
     },
     {
-      label: "Rapports",
-      value: data.reports.length,
-      description: "Rapports d'intervention",
+      label: "Rapports terrain",
+      value: reports.length,
       icon: ClipboardList,
-      iconColor: "text-violet-600",
+      iconClass: "text-cyan-600",
+      iconBg: "bg-cyan-50",
+      path: "/reports",
+    },
+  ];
+
+  const quickActions = [
+    {
+      label: "Nouveau client",
+      description: "Ajouter un client et son activité",
+      icon: UsersRound,
+      iconClass: "text-blue-600",
+      iconBg: "bg-blue-50",
+      path: "/customers/new",
+    },
+    {
+      label: "Nouveau devis",
+      description: "Créer rapidement une proposition",
+      icon: FileText,
+      iconClass: "text-violet-600",
       iconBg: "bg-violet-50",
-      href: "/reports",
+      path: "/quotes/new",
+    },
+    {
+      label: "Nouveau chantier",
+      description: "Planifier une nouvelle intervention",
+      icon: ClipboardList,
+      iconClass: "text-amber-600",
+      iconBg: "bg-amber-50",
+      path: "/jobs/new",
+    },
+  ];
+
+  const activityLinks = [
+    {
+      label: "Clients",
+      value: customers.length,
+      icon: UsersRound,
+      iconClass: "text-blue-600",
+      iconBg: "bg-blue-50",
+      path: "/customers",
+    },
+    {
+      label: "Sites",
+      value: sites.length,
+      icon: MapPin,
+      iconClass: "text-emerald-600",
+      iconBg: "bg-emerald-50",
+      path: "/sites",
+    },
+    {
+      label: "Devis",
+      value: quotes.length,
+      icon: FileText,
+      iconClass: "text-violet-600",
+      iconBg: "bg-violet-50",
+      path: "/quotes",
+    },
+    {
+      label: "Chantiers",
+      value: jobs.length,
+      icon: CalendarDays,
+      iconClass: "text-amber-600",
+      iconBg: "bg-amber-50",
+      path: "/jobs",
     },
   ];
 
   return (
-    <div className="min-h-full bg-slate-50 p-6 lg:p-8">
-      <div className="mx-auto max-w-7xl space-y-8">
-        {/* Header */}
-        <section>
-          <p className="text-sm font-medium text-slate-500">
-            Vue d'ensemble
-          </p>
+    <div className="space-y-8">
+      <header className="animate-fade-up">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-sm font-medium text-emerald-600">
+              Tableau de bord
+            </p>
 
-          <h1 className="mt-1 text-2xl font-bold tracking-tight text-slate-900">
-            Bonjour {user?.first_name || "et bienvenue"}
-          </h1>
+            <h1 className="mt-1 text-2xl font-semibold tracking-tight text-slate-900">
+              Bonjour{user?.first_name ? ` ${user.first_name}` : ""},
+            </h1>
 
-          <p className="mt-2 text-sm text-slate-600">
-            Voici un aperçu de votre activité GreenPilot.
-          </p>
-        </section>
-
-        {/* Error */}
-        {error && (
-          <div className="flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4 text-red-700">
-            <AlertCircle className="mt-0.5 h-5 w-5 shrink-0" />
-
-            <div>
-              <p className="text-sm font-medium">{error}</p>
-
-              <p className="mt-1 text-xs text-red-600">
-                Vérifiez votre connexion et vos droits d'accès à l'API.
-              </p>
-            </div>
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">
+              Retrouvez ici une vue rapide de votre activité GreenPilot et
+              accédez directement à vos principales actions.
+            </p>
           </div>
-        )}
 
-        {/* Main stats */}
-        <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {statCards.map((stat) => {
-            const Icon = stat.icon;
+          <button
+            type="button"
+            onClick={() => navigate("/invoices/new")}
+            className="group inline-flex items-center justify-center gap-2 rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-slate-800 hover:shadow-md"
+          >
+            <Plus
+              size={17}
+              strokeWidth={2}
+              className="transition-transform duration-200 group-hover:rotate-90"
+            />
+            Nouvelle facture
+          </button>
+        </div>
+      </header>
 
-            return (
-              <button
-                key={stat.key}
-                type="button"
-                onClick={() => navigate(stat.href)}
-                className="group rounded-xl border border-slate-200 bg-white p-5 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md"
-              >
-                <div className="flex items-start justify-between">
-                  <div
-                    className={`rounded-lg p-2.5 ${stat.iconBg} ${stat.iconColor} transition group-hover:scale-105`}
-                  >
-                    <Icon className="h-5 w-5" strokeWidth={1.8} />
-                  </div>
+      {error && (
+        <div className="animate-slide-in flex items-start gap-3 rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-700">
+          <AlertCircle
+            size={18}
+            className="mt-0.5 shrink-0"
+            strokeWidth={2}
+          />
 
-                  <ArrowRight className="h-4 w-4 text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-slate-500" />
+          <div>
+            <p className="font-medium">Une erreur est survenue</p>
+            <p className="mt-1 text-red-600">{error}</p>
+          </div>
+        </div>
+      )}
+
+      <section className="animate-stagger grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {stats.map((stat) => {
+          const Icon = stat.icon;
+
+          return (
+            <button
+              key={stat.label}
+              type="button"
+              onClick={() => navigate(stat.path)}
+              className="group rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md"
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div
+                  className={`flex h-11 w-11 items-center justify-center rounded-xl ${stat.iconBg}`}
+                >
+                  <Icon
+                    size={21}
+                    strokeWidth={1.9}
+                    className={`${stat.iconClass} transition-transform duration-200 group-hover:scale-105`}
+                  />
                 </div>
 
-                <p className="mt-4 text-sm font-medium text-slate-500">
+                <ArrowRight
+                  size={17}
+                  className="text-slate-300 transition-all duration-200 group-hover:translate-x-1 group-hover:text-slate-500"
+                />
+              </div>
+
+              <div className="mt-5">
+                <p className="text-sm font-medium text-slate-500">
                   {stat.label}
                 </p>
 
-                <p className="mt-1 text-3xl font-bold text-slate-900">
-                  {loading ? "—" : stats[stat.key]}
+                <p className="mt-1 text-3xl font-semibold tracking-tight text-slate-900">
+                  {loading ? "—" : stat.value}
                 </p>
 
-                <p className="mt-2 text-xs text-slate-500">
+                <p className="mt-1 text-xs text-slate-400">
                   {stat.description}
                 </p>
-              </button>
-            );
-          })}
-        </section>
-
-        {/* Secondary stats */}
-        <section className="grid gap-4 sm:grid-cols-2">
-          {secondaryStats.map((stat) => {
-            const Icon = stat.icon;
-
-            return (
-              <button
-                key={stat.label}
-                type="button"
-                onClick={() => navigate(stat.href)}
-                className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white p-5 text-left shadow-sm transition hover:border-slate-300 hover:shadow-md"
-              >
-                <div className="flex items-center gap-4">
-                  <div
-                    className={`rounded-lg p-2.5 ${stat.iconBg} ${stat.iconColor} transition group-hover:scale-105`}
-                  >
-                    <Icon className="h-5 w-5" strokeWidth={1.8} />
-                  </div>
-
-                  <div>
-                    <p className="text-sm font-medium text-slate-500">
-                      {stat.label}
-                    </p>
-
-                    <p className="mt-1 text-2xl font-bold text-slate-900">
-                      {loading ? "—" : stat.value}
-                    </p>
-
-                    <p className="mt-1 text-xs text-slate-500">
-                      {stat.description}
-                    </p>
-                  </div>
-                </div>
-
-                <ArrowRight className="h-4 w-4 text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-slate-500" />
-              </button>
-            );
-          })}
-        </section>
-
-        {/* Dashboard content */}
-        <section className="grid gap-6 lg:grid-cols-3">
-          {/* Activity */}
-          <article className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm lg:col-span-2">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <h2 className="text-lg font-semibold text-slate-900">
-                  Activité
-                </h2>
-
-                <p className="mt-1 text-sm text-slate-500">
-                  Vue synthétique des données de votre organisation.
-                </p>
               </div>
-            </div>
+            </button>
+          );
+        })}
+      </section>
 
-            <div className="mt-6 grid gap-4 sm:grid-cols-2">
-              {/* Interventions */}
-              <button
-                type="button"
-                onClick={() => navigate("/jobs")}
-                className="group rounded-lg border border-slate-200 p-4 text-left transition hover:border-emerald-200 hover:bg-emerald-50/40"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="rounded-lg bg-emerald-50 p-2">
-                    <CalendarDays
-                      className="h-5 w-5 text-emerald-600"
-                      strokeWidth={1.8}
-                    />
-                  </div>
+      <section className="animate-stagger grid gap-4 sm:grid-cols-2">
+        {secondaryStats.map((stat) => {
+          const Icon = stat.icon;
 
-                  <div>
-                    <p className="text-sm font-medium text-slate-900">
-                      Interventions
-                    </p>
-
-                    <p className="mt-1 text-xs text-slate-500">
-                      {loading
-                        ? "Chargement..."
-                        : `${data.jobs.length} intervention${
-                            data.jobs.length > 1 ? "s" : ""
-                          }`}
-                    </p>
-                  </div>
+          return (
+            <button
+              key={stat.label}
+              type="button"
+              onClick={() => navigate(stat.path)}
+              className="group flex items-center justify-between rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md"
+            >
+              <div className="flex items-center gap-4">
+                <div
+                  className={`flex h-11 w-11 items-center justify-center rounded-xl ${stat.iconBg}`}
+                >
+                  <Icon
+                    size={21}
+                    strokeWidth={1.9}
+                    className={`${stat.iconClass} transition-transform duration-200 group-hover:scale-105`}
+                  />
                 </div>
-              </button>
 
-              {/* Devis */}
-              <button
-                type="button"
-                onClick={() => navigate("/quotes")}
-                className="group rounded-lg border border-slate-200 p-4 text-left transition hover:border-blue-200 hover:bg-blue-50/40"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="rounded-lg bg-blue-50 p-2">
-                    <FileText
-                      className="h-5 w-5 text-blue-700"
-                      strokeWidth={1.8}
-                    />
-                  </div>
+                <div>
+                  <p className="text-sm font-medium text-slate-500">
+                    {stat.label}
+                  </p>
 
-                  <div>
-                    <p className="text-sm font-medium text-slate-900">
-                      Devis
-                    </p>
-
-                    <p className="mt-1 text-xs text-slate-500">
-                      {loading
-                        ? "Chargement..."
-                        : `${data.quotes.length} devis${
-                            data.quotes.length > 1 ? "s" : ""
-                          }`}
-                    </p>
-                  </div>
+                  <p className="mt-1 text-2xl font-semibold tracking-tight text-slate-900">
+                    {loading ? "—" : stat.value}
+                  </p>
                 </div>
-              </button>
+              </div>
 
-              {/* Facturation */}
-              <button
-                type="button"
-                onClick={() => navigate("/invoices")}
-                className="group rounded-lg border border-slate-200 p-4 text-left transition hover:border-emerald-200 hover:bg-emerald-50/40"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="rounded-lg bg-emerald-50 p-2">
-                    <ReceiptText
-                      className="h-5 w-5 text-emerald-700"
-                      strokeWidth={1.8}
-                    />
-                  </div>
+              <ArrowRight
+                size={17}
+                className="text-slate-300 transition-all duration-200 group-hover:translate-x-1 group-hover:text-slate-500"
+              />
+            </button>
+          );
+        })}
+      </section>
 
-                  <div>
-                    <p className="text-sm font-medium text-slate-900">
-                      Facturation
-                    </p>
-
-                    <p className="mt-1 text-xs text-slate-500">
-                      {loading
-                        ? "Chargement..."
-                        : `${data.invoices.length} facture${
-                            data.invoices.length > 1 ? "s" : ""
-                          }`}
-                    </p>
-                  </div>
-                </div>
-              </button>
-
-              {/* Rapports */}
-              <button
-                type="button"
-                onClick={() => navigate("/reports")}
-                className="group rounded-lg border border-slate-200 p-4 text-left transition hover:border-violet-200 hover:bg-violet-50/40"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="rounded-lg bg-violet-50 p-2">
-                    <ClipboardList
-                      className="h-5 w-5 text-violet-600"
-                      strokeWidth={1.8}
-                    />
-                  </div>
-
-                  <div>
-                    <p className="text-sm font-medium text-slate-900">
-                      Rapports
-                    </p>
-
-                    <p className="mt-1 text-xs text-slate-500">
-                      {loading
-                        ? "Chargement..."
-                        : `${data.reports.length} rapport${
-                            data.reports.length > 1 ? "s" : ""
-                          }`}
-                    </p>
-                  </div>
-                </div>
-              </button>
-            </div>
-          </article>
-
-          {/* Quick actions */}
-          <article className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-            <h2 className="text-lg font-semibold text-slate-900">
-              Actions rapides
+      <section className="animate-fade-up rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h2 className="text-base font-semibold text-slate-900">
+              Votre activité
             </h2>
 
             <p className="mt-1 text-sm text-slate-500">
-              Accédez rapidement aux principales actions.
+              Accédez rapidement aux principaux espaces de votre activité.
             </p>
+          </div>
 
-            <div className="mt-5 space-y-3">
-              {quickActions.map((action) => {
-                const Icon = action.icon;
+          <CalendarDays
+            size={20}
+            className="text-slate-400"
+            strokeWidth={1.8}
+          />
+        </div>
 
-                return (
-                  <button
-                    key={action.label}
-                    type="button"
-                    onClick={() => navigate(action.href)}
-                    className="group flex w-full items-center gap-3 rounded-lg border border-slate-200 px-4 py-3 text-left transition hover:border-slate-300 hover:bg-slate-50"
+        <div className="animate-stagger mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          {activityLinks.map((item) => {
+            const Icon = item.icon;
+
+            return (
+              <button
+                key={item.label}
+                type="button"
+                onClick={() => navigate(item.path)}
+                className="group flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50/70 p-4 text-left transition duration-200 hover:-translate-y-0.5 hover:border-slate-200 hover:bg-white hover:shadow-sm"
+              >
+                <div className="flex items-center gap-3">
+                  <div
+                    className={`flex h-10 w-10 items-center justify-center rounded-lg ${item.iconBg}`}
                   >
-                    <div
-                      className={`rounded-lg p-2 ${action.iconBg} ${action.iconColor} transition group-hover:scale-105`}
-                    >
-                      <Icon className="h-4 w-4" strokeWidth={1.8} />
-                    </div>
+                    <Icon
+                      size={18}
+                      strokeWidth={1.9}
+                      className={`${item.iconClass} transition-transform duration-200 group-hover:scale-105`}
+                    />
+                  </div>
 
-                    <div className="flex-1">
-                      <span className="block text-sm font-medium text-slate-700">
-                        {action.label}
-                      </span>
+                  <div>
+                    <p className="text-sm font-medium text-slate-700">
+                      {item.label}
+                    </p>
 
-                      <span className="mt-1 block text-xs text-slate-500">
-                        {action.description}
-                      </span>
-                    </div>
+                    <p className="mt-0.5 text-xs text-slate-400">
+                      {loading ? "Chargement..." : `${item.value} élément(s)`}
+                    </p>
+                  </div>
+                </div>
 
-                    <ArrowRight className="h-4 w-4 text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-slate-500" />
-                  </button>
-                );
-              })}
-            </div>
+                <ArrowRight
+                  size={16}
+                  className="text-slate-300 transition-all duration-200 group-hover:translate-x-1 group-hover:text-slate-500"
+                />
+              </button>
+            );
+          })}
+        </div>
+      </section>
 
-            {/* Nouvelle facture */}
-            <button
-              type="button"
-              onClick={() => navigate("/invoices/new")}
-              className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-slate-900 px-4 py-3 text-sm font-medium text-white transition hover:bg-slate-800"
-            >
-              <Plus className="h-4 w-4" />
-              Nouvelle facture
-            </button>
-          </article>
-        </section>
-      </div>
+      <section className="animate-fade-up rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+        <div>
+          <h2 className="text-base font-semibold text-slate-900">
+            Actions rapides
+          </h2>
+
+          <p className="mt-1 text-sm text-slate-500">
+            Lancez les opérations les plus fréquentes en quelques secondes.
+          </p>
+        </div>
+
+        <div className="animate-stagger mt-5 grid gap-3 lg:grid-cols-3">
+          {quickActions.map((action) => {
+            const Icon = action.icon;
+
+            return (
+              <button
+                key={action.label}
+                type="button"
+                onClick={() => navigate(action.path)}
+                className="group flex items-center gap-4 rounded-xl border border-slate-200 p-4 text-left transition duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 hover:shadow-sm"
+              >
+                <div
+                  className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${action.iconBg}`}
+                >
+                  <Icon
+                    size={20}
+                    strokeWidth={1.9}
+                    className={`${action.iconClass} transition-transform duration-200 group-hover:scale-105`}
+                  />
+                </div>
+
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-semibold text-slate-800">
+                    {action.label}
+                  </p>
+
+                  <p className="mt-1 text-xs leading-5 text-slate-500">
+                    {action.description}
+                  </p>
+                </div>
+
+                <ArrowRight
+                  size={17}
+                  className="shrink-0 text-slate-300 transition-all duration-200 group-hover:translate-x-1 group-hover:text-slate-500"
+                />
+              </button>
+            );
+          })}
+        </div>
+      </section>
     </div>
   );
 }
+export default DashboardPage;
