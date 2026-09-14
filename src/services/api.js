@@ -18,4 +18,4 @@ config.headers.Authorization = `Bearer ${token}`
 return config
 })
 
-export default api
+export default api;
