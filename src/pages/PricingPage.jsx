@@ -103,7 +103,7 @@ function PricingPage() {
           </h1>
 
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-            Utilisez GreenPilot comme logiciel de gestion ou laissez-nous vous
+            Utilisez GreenPilot comme Le cockpit de gestion de votre entreprise ou laissez-nous vous
             accompagner dans sa mise en place pour démarrer plus rapidement.
           </p>
         </div>
