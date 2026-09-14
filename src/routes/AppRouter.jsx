@@ -76,10 +76,12 @@ import TermsPage from "../pages/TermsPage";
 
 import AppLayout from "../layouts/AppLayout";
 import ProtectedRoute from "./ProtectedRoute";
+import PageTransition from "../components/ui/PageTransition";
 
 export default function AppRouter() {
   return (
     <BrowserRouter>
+     <PageTransition>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
@@ -187,6 +189,7 @@ export default function AppRouter() {
 
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
+      </PageTransition>
     </BrowserRouter>
   );
 }
