@@ -1,6 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, RefreshCw } from "lucide-react";
+import {
+  AlertCircle,
+  ArrowLeft,
+  CalendarClock,
+  FilePenLine,
+  Loader2,
+  RefreshCw,
+  Wrench,
+} from "lucide-react";
 
 import JobForm from "./JobForm";
 import { getCustomers } from "../../services/customers";
@@ -72,7 +80,7 @@ function buildInitialValues(job) {
   };
 }
 
- function JobEditPage() {
+function JobEditPage() {
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -155,19 +163,40 @@ function buildInitialValues(job) {
         <button
           type="button"
           onClick={() => navigate(`/jobs/${id}`)}
-          className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-slate-900"
+          className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 transition hover:text-amber-600"
         >
           <ArrowLeft className="h-4 w-4" />
           Retour à l’intervention
         </button>
 
-        <div className="rounded-xl border border-slate-200 bg-white p-8 shadow-sm">
-          <div className="flex items-center justify-center">
-            <div className="text-center">
-              <RefreshCw className="mx-auto h-6 w-6 animate-spin text-slate-400" />
+        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+          <div className="border-b border-slate-200 bg-slate-50/70 px-6 py-5">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 text-amber-600 ring-1 ring-amber-100">
+                <FilePenLine className="h-5 w-5" />
+              </div>
 
-              <p className="mt-3 text-sm text-slate-500">
+              <div>
+                <h1 className="text-lg font-semibold text-slate-900">
+                  Modifier l’intervention
+                </h1>
+                <p className="text-sm text-slate-500">
+                  Préparation du formulaire...
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex min-h-64 items-center justify-center p-8">
+            <div className="text-center">
+              <Loader2 className="mx-auto h-7 w-7 animate-spin text-amber-500" />
+
+              <p className="mt-3 text-sm font-medium text-slate-600">
                 Chargement de l’intervention...
+              </p>
+
+              <p className="mt-1 text-xs text-slate-400">
+                Récupération des informations nécessaires
               </p>
             </div>
           </div>
@@ -182,25 +211,37 @@ function buildInitialValues(job) {
         <button
           type="button"
           onClick={() => navigate("/jobs")}
-          className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-slate-900"
+          className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 transition hover:text-amber-600"
         >
           <ArrowLeft className="h-4 w-4" />
           Retour au planning
         </button>
 
-        <div className="rounded-xl border border-red-200 bg-red-50 p-6">
-          <p className="text-sm text-red-700">
-            {error || "Intervention introuvable."}
-          </p>
+        <div className="overflow-hidden rounded-2xl border border-slate-200 border-l-4 border-l-red-500 bg-white shadow-sm">
+          <div className="flex items-start gap-4 p-6">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-red-50 text-red-600 ring-1 ring-red-100">
+              <AlertCircle className="h-5 w-5" />
+            </div>
 
-          <button
-            type="button"
-            onClick={() => window.location.reload()}
-            className="mt-4 inline-flex items-center gap-2 rounded-lg border border-red-200 bg-white px-4 py-2.5 text-sm font-medium text-red-700 hover:bg-red-50"
-          >
-            <RefreshCw className="h-4 w-4" />
-            Réessayer
-          </button>
+            <div className="min-w-0">
+              <h2 className="font-semibold text-slate-900">
+                Impossible de charger l’intervention
+              </h2>
+
+              <p className="mt-1 text-sm leading-6 text-red-700">
+                {error || "Intervention introuvable."}
+              </p>
+
+              <button
+                type="button"
+                onClick={() => window.location.reload()}
+                className="mt-4 inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition hover:border-amber-200 hover:bg-amber-50 hover:text-amber-700"
+              >
+                <RefreshCw className="h-4 w-4" />
+                Réessayer
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -208,42 +249,95 @@ function buildInitialValues(job) {
 
   return (
     <div className="space-y-6">
-      <div>
-        <button
-          type="button"
-          onClick={() => navigate(`/jobs/${id}`)}
-          className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-slate-900"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Retour à l’intervention
-        </button>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <button
+            type="button"
+            onClick={() => navigate(`/jobs/${id}`)}
+            className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 transition hover:text-amber-600"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Retour à l’intervention
+          </button>
 
-        <h1 className="mt-4 text-2xl font-semibold tracking-tight text-slate-900">
-          Modifier l’intervention
-        </h1>
+          <div className="mt-4 flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-amber-50 text-amber-600 ring-1 ring-amber-100">
+              <FilePenLine className="h-5 w-5" />
+            </div>
 
-        <p className="mt-1 text-sm text-slate-500">
-          Modifiez les informations de l’intervention puis enregistrez les
-          changements.
-        </p>
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wider text-amber-600">
+                Planning
+              </p>
+
+              <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
+                Modifier l’intervention
+              </h1>
+            </div>
+          </div>
+
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">
+            Modifiez les informations de l’intervention puis enregistrez les
+            changements.
+          </p>
+        </div>
+
+        <div className="hidden h-12 w-12 items-center justify-center rounded-2xl bg-slate-50 text-slate-400 ring-1 ring-slate-200 sm:flex">
+          <Wrench className="h-5 w-5" />
+        </div>
       </div>
 
       {error && (
-        <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-          {error}
+        <div className="overflow-hidden rounded-2xl border border-slate-200 border-l-4 border-l-red-500 bg-white shadow-sm">
+          <div className="flex items-start gap-3 px-5 py-4">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-red-50 text-red-600">
+              <AlertCircle className="h-4 w-4" />
+            </div>
+
+            <div>
+              <p className="text-sm font-semibold text-slate-900">
+                Enregistrement impossible
+              </p>
+
+              <p className="mt-1 text-sm text-red-700">{error}</p>
+            </div>
+          </div>
         </div>
       )}
 
-      <JobForm
-        customers={customers}
-        sites={sites}
-        initialValues={buildInitialValues(job)}
-        onSubmit={handleSubmit}
-        onCancel={handleCancel}
-        submitting={submitting}
-        submitLabel="Enregistrer les modifications"
-      />
+      <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <div className="border-b border-slate-200 bg-slate-50/70 px-6 py-5">
+          <div className="flex items-center gap-3">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-50 text-amber-600 ring-1 ring-amber-100">
+              <CalendarClock className="h-4 w-4" />
+            </div>
+
+            <div>
+              <h2 className="text-sm font-semibold text-slate-900">
+                Informations de l’intervention
+              </h2>
+
+              <p className="mt-0.5 text-xs text-slate-500">
+                Client, site, planification et paramètres d’exécution
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="p-4 sm:p-6">
+          <JobForm
+            customers={customers}
+            sites={sites}
+            initialValues={buildInitialValues(job)}
+            onSubmit={handleSubmit}
+            onCancel={handleCancel}
+            submitting={submitting}
+            submitLabel="Enregistrer les modifications"
+          />
+        </div>
+      </div>
     </div>
   );
 }
+
 export default JobEditPage;
