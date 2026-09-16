@@ -1,7 +1,18 @@
-
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, CarFront, Save } from "lucide-react";
+import {
+  ArrowLeft,
+  CalendarDays,
+  CarFront,
+  CircleGauge,
+  FileText,
+  Fuel,
+  Gauge,
+  Ruler,
+  Save,
+  Tag,
+  Truck,
+} from "lucide-react";
 
 import {
   createVehicle,
@@ -22,6 +33,14 @@ const INITIAL_FORM = {
   active: true,
   notes: "",
 };
+
+function FieldIcon({ icon: Icon }) {
+  return (
+    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-cyan-50 text-cyan-600">
+      <Icon className="h-4 w-4" />
+    </div>
+  );
+}
 
 export default function VehicleFormPage() {
   const { id } = useParams();
@@ -123,35 +142,42 @@ export default function VehicleFormPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center px-6 py-16">
-        <p className="text-sm text-slate-500">
-          Chargement du véhicule...
-        </p>
+      <div className="flex min-h-[320px] items-center justify-center px-6">
+        <div className="flex flex-col items-center gap-3">
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-cyan-50 text-cyan-600">
+            <CarFront className="h-5 w-5 animate-pulse" />
+          </div>
+
+          <p className="text-sm text-slate-500">
+            Chargement du véhicule...
+          </p>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="mx-auto max-w-4xl space-y-6">
+      {/* Header */}
       <div className="flex items-center gap-3">
         <Link
           to="/vehicles"
-          className="rounded-lg p-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-700"
+          className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 shadow-sm transition hover:border-cyan-200 hover:bg-cyan-50 hover:text-cyan-700"
           title="Retour aux véhicules"
         >
           <ArrowLeft className="h-5 w-5" />
         </Link>
 
-        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700">
+        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-50 text-cyan-700 ring-1 ring-cyan-100">
           <CarFront className="h-6 w-6" />
         </div>
 
         <div>
-          <h1 className="text-2xl font-semibold text-slate-900">
+          <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
             {isEditMode ? "Modifier le véhicule" : "Nouveau véhicule"}
           </h1>
 
-          <p className="text-sm text-slate-500">
+          <p className="mt-1 text-sm text-slate-500">
             {isEditMode
               ? "Modifiez les informations de ce véhicule."
               : "Ajoutez un véhicule à votre flotte."}
@@ -159,23 +185,44 @@ export default function VehicleFormPage() {
         </div>
       </div>
 
+      {/* Error */}
       {error && (
-        <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-          {error}
+        <div className="flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          <span className="mt-0.5 font-medium">Erreur :</span>
+          <span>{error}</span>
         </div>
       )}
 
       <form
         onSubmit={handleSubmit}
-        className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm"
+        className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
       >
         <div className="space-y-8 p-6">
+          {/* Informations générales */}
           <section>
-            <h2 className="text-base font-semibold text-slate-900">
-              Informations générales
-            </h2>
+            <div className="flex items-start gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-50 text-cyan-700">
+                <Truck className="h-5 w-5" />
+              </div>
 
-            <div className="mt-4 grid gap-5 md:grid-cols-2">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-cyan-600">
+                  Flotte
+                </p>
+
+                <h2 className="mt-1 text-base font-semibold text-slate-900">
+                  Informations générales
+                </h2>
+
+                <p className="mt-1 text-sm text-slate-500">
+                  Identifiez le véhicule et renseignez ses informations
+                  principales.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-6 grid gap-5 md:grid-cols-2">
+              {/* Nom */}
               <div>
                 <label
                   htmlFor="name"
@@ -184,18 +231,23 @@ export default function VehicleFormPage() {
                   Nom du véhicule *
                 </label>
 
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  value={form.name}
-                  onChange={handleChange}
-                  required
-                  placeholder="Ex. Utilitaire équipe Nord"
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
-                />
+                <div className="flex gap-2">
+                  <FieldIcon icon={CarFront} />
+
+                  <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    value={form.name}
+                    onChange={handleChange}
+                    required
+                    placeholder="Ex. Utilitaire équipe Nord"
+                    className="min-w-0 flex-1 rounded-lg border border-slate-300 px-3 py-2.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100"
+                  />
+                </div>
               </div>
 
+              {/* Immatriculation */}
               <div>
                 <label
                   htmlFor="registration_number"
@@ -204,18 +256,23 @@ export default function VehicleFormPage() {
                   Immatriculation *
                 </label>
 
-                <input
-                  id="registration_number"
-                  name="registration_number"
-                  type="text"
-                  value={form.registration_number}
-                  onChange={handleChange}
-                  required
-                  placeholder="Ex. AB-123-CD"
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm uppercase text-slate-900 outline-none transition placeholder:normal-case placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
-                />
+                <div className="flex gap-2">
+                  <FieldIcon icon={Tag} />
+
+                  <input
+                    id="registration_number"
+                    name="registration_number"
+                    type="text"
+                    value={form.registration_number}
+                    onChange={handleChange}
+                    required
+                    placeholder="Ex. AB-123-CD"
+                    className="min-w-0 flex-1 rounded-lg border border-slate-300 px-3 py-2.5 text-sm uppercase text-slate-900 outline-none transition placeholder:normal-case placeholder:text-slate-400 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100"
+                  />
+                </div>
               </div>
 
+              {/* Type */}
               <div>
                 <label
                   htmlFor="vehicle_type"
@@ -224,17 +281,22 @@ export default function VehicleFormPage() {
                   Type de véhicule
                 </label>
 
-                <input
-                  id="vehicle_type"
-                  name="vehicle_type"
-                  type="text"
-                  value={form.vehicle_type}
-                  onChange={handleChange}
-                  placeholder="Ex. Fourgon, camion, utilitaire..."
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
-                />
+                <div className="flex gap-2">
+                  <FieldIcon icon={Truck} />
+
+                  <input
+                    id="vehicle_type"
+                    name="vehicle_type"
+                    type="text"
+                    value={form.vehicle_type}
+                    onChange={handleChange}
+                    placeholder="Ex. Fourgon, camion, utilitaire..."
+                    className="min-w-0 flex-1 rounded-lg border border-slate-300 px-3 py-2.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100"
+                  />
+                </div>
               </div>
 
+              {/* Marque */}
               <div>
                 <label
                   htmlFor="brand"
@@ -243,17 +305,22 @@ export default function VehicleFormPage() {
                   Marque
                 </label>
 
-                <input
-                  id="brand"
-                  name="brand"
-                  type="text"
-                  value={form.brand}
-                  onChange={handleChange}
-                  placeholder="Ex. Renault"
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
-                />
+                <div className="flex gap-2">
+                  <FieldIcon icon={CarFront} />
+
+                  <input
+                    id="brand"
+                    name="brand"
+                    type="text"
+                    value={form.brand}
+                    onChange={handleChange}
+                    placeholder="Ex. Renault"
+                    className="min-w-0 flex-1 rounded-lg border border-slate-300 px-3 py-2.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100"
+                  />
+                </div>
               </div>
 
+              {/* Modèle */}
               <div>
                 <label
                   htmlFor="model"
@@ -262,17 +329,22 @@ export default function VehicleFormPage() {
                   Modèle
                 </label>
 
-                <input
-                  id="model"
-                  name="model"
-                  type="text"
-                  value={form.model}
-                  onChange={handleChange}
-                  placeholder="Ex. Kangoo"
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
-                />
+                <div className="flex gap-2">
+                  <FieldIcon icon={CarFront} />
+
+                  <input
+                    id="model"
+                    name="model"
+                    type="text"
+                    value={form.model}
+                    onChange={handleChange}
+                    placeholder="Ex. Kangoo"
+                    className="min-w-0 flex-1 rounded-lg border border-slate-300 px-3 py-2.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100"
+                  />
+                </div>
               </div>
 
+              {/* Année */}
               <div>
                 <label
                   htmlFor="year"
@@ -281,27 +353,49 @@ export default function VehicleFormPage() {
                   Année
                 </label>
 
-                <input
-                  id="year"
-                  name="year"
-                  type="number"
-                  min="1900"
-                  max="2100"
-                  value={form.year}
-                  onChange={handleChange}
-                  placeholder="Ex. 2024"
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
-                />
+                <div className="flex gap-2">
+                  <FieldIcon icon={CalendarDays} />
+
+                  <input
+                    id="year"
+                    name="year"
+                    type="number"
+                    min="1900"
+                    max="2100"
+                    value={form.year}
+                    onChange={handleChange}
+                    placeholder="Ex. 2024"
+                    className="min-w-0 flex-1 rounded-lg border border-slate-300 px-3 py-2.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100"
+                  />
+                </div>
               </div>
             </div>
           </section>
 
+          {/* Caractéristiques */}
           <section className="border-t border-slate-200 pt-8">
-            <h2 className="text-base font-semibold text-slate-900">
-              Caractéristiques
-            </h2>
+            <div className="flex items-start gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-50 text-cyan-700">
+                <Gauge className="h-5 w-5" />
+              </div>
 
-            <div className="mt-4 grid gap-5 md:grid-cols-3">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-cyan-600">
+                  Données techniques
+                </p>
+
+                <h2 className="mt-1 text-base font-semibold text-slate-900">
+                  Caractéristiques
+                </h2>
+
+                <p className="mt-1 text-sm text-slate-500">
+                  Renseignez les principales caractéristiques techniques.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-6 grid gap-5 md:grid-cols-3">
+              {/* Carburant */}
               <div>
                 <label
                   htmlFor="fuel_type"
@@ -310,17 +404,22 @@ export default function VehicleFormPage() {
                   Carburant
                 </label>
 
-                <input
-                  id="fuel_type"
-                  name="fuel_type"
-                  type="text"
-                  value={form.fuel_type}
-                  onChange={handleChange}
-                  placeholder="Ex. Diesel"
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
-                />
+                <div className="flex gap-2">
+                  <FieldIcon icon={Fuel} />
+
+                  <input
+                    id="fuel_type"
+                    name="fuel_type"
+                    type="text"
+                    value={form.fuel_type}
+                    onChange={handleChange}
+                    placeholder="Ex. Diesel"
+                    className="min-w-0 flex-1 rounded-lg border border-slate-300 px-3 py-2.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100"
+                  />
+                </div>
               </div>
 
+              {/* Consommation */}
               <div>
                 <label
                   htmlFor="fuel_consumption"
@@ -329,19 +428,24 @@ export default function VehicleFormPage() {
                   Consommation
                 </label>
 
-                <input
-                  id="fuel_consumption"
-                  name="fuel_consumption"
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  value={form.fuel_consumption}
-                  onChange={handleChange}
-                  placeholder="L/100 km"
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
-                />
+                <div className="flex gap-2">
+                  <FieldIcon icon={CircleGauge} />
+
+                  <input
+                    id="fuel_consumption"
+                    name="fuel_consumption"
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value={form.fuel_consumption}
+                    onChange={handleChange}
+                    placeholder="L/100 km"
+                    className="min-w-0 flex-1 rounded-lg border border-slate-300 px-3 py-2.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100"
+                  />
+                </div>
               </div>
 
+              {/* Capacité */}
               <div>
                 <label
                   htmlFor="capacity"
@@ -350,34 +454,56 @@ export default function VehicleFormPage() {
                   Capacité
                 </label>
 
-                <input
-                  id="capacity"
-                  name="capacity"
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  value={form.capacity}
-                  onChange={handleChange}
-                  placeholder="Ex. 3.5"
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
-                />
+                <div className="flex gap-2">
+                  <FieldIcon icon={Ruler} />
+
+                  <input
+                    id="capacity"
+                    name="capacity"
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value={form.capacity}
+                    onChange={handleChange}
+                    placeholder="Ex. 3.5"
+                    className="min-w-0 flex-1 rounded-lg border border-slate-300 px-3 py-2.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100"
+                  />
+                </div>
               </div>
             </div>
           </section>
 
+          {/* Statut et notes */}
           <section className="border-t border-slate-200 pt-8">
-            <h2 className="text-base font-semibold text-slate-900">
-              Statut et notes
-            </h2>
+            <div className="flex items-start gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-50 text-cyan-700">
+                <FileText className="h-5 w-5" />
+              </div>
 
-            <div className="mt-4 space-y-5">
-              <label className="flex cursor-pointer items-center gap-3">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-cyan-600">
+                  Gestion
+                </p>
+
+                <h2 className="mt-1 text-base font-semibold text-slate-900">
+                  Statut et notes
+                </h2>
+
+                <p className="mt-1 text-sm text-slate-500">
+                  Gérez la disponibilité du véhicule et ajoutez des
+                  informations complémentaires.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-6 space-y-5">
+              <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 bg-slate-50/70 p-4 transition hover:border-cyan-200 hover:bg-cyan-50/30">
                 <input
                   type="checkbox"
                   name="active"
                   checked={form.active}
                   onChange={handleChange}
-                  className="h-4 w-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
+                  className="mt-0.5 h-4 w-4 rounded border-slate-300 text-cyan-600 focus:ring-cyan-500"
                 />
 
                 <span>
@@ -385,7 +511,7 @@ export default function VehicleFormPage() {
                     Véhicule actif
                   </span>
 
-                  <span className="block text-xs text-slate-500">
+                  <span className="mt-0.5 block text-xs leading-5 text-slate-500">
                     Un véhicule inactif reste enregistré mais n'est plus
                     considéré comme disponible.
                   </span>
@@ -407,17 +533,18 @@ export default function VehicleFormPage() {
                   value={form.notes}
                   onChange={handleChange}
                   placeholder="Informations complémentaires..."
-                  className="w-full resize-y rounded-lg border border-slate-300 px-3 py-2.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
+                  className="w-full resize-y rounded-xl border border-slate-300 px-3 py-2.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100"
                 />
               </div>
             </div>
           </section>
         </div>
 
+        {/* Actions */}
         <div className="flex flex-col-reverse gap-3 border-t border-slate-200 bg-slate-50 px-6 py-4 sm:flex-row sm:items-center sm:justify-end">
           <Link
             to="/vehicles"
-            className="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+            className="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-400 hover:bg-slate-50"
           >
             Annuler
           </Link>
@@ -425,7 +552,7 @@ export default function VehicleFormPage() {
           <button
             type="submit"
             disabled={saving}
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-cyan-600 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-cyan-700 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <Save className="h-4 w-4" />
 
