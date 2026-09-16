@@ -1,3 +1,4 @@
+
 import api from "./api";
 
 export const getJobReports = async () => {
@@ -28,4 +29,12 @@ export const updateJobReport = async (id, reportData) => {
 
 export const deleteJobReport = async (id) => {
   await api.delete(`/job_reports/${id}`);
+};
+
+export const downloadJobReportPdf = async (id) => {
+  const response = await api.get(`/job_reports/${id}/pdf`, {
+    responseType: "blob",
+  });
+
+  return response.data;
 };
