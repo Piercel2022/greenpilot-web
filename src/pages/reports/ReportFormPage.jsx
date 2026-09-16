@@ -1,5 +1,17 @@
+
 import { useEffect, useState } from "react";
-import { ArrowLeft, Save } from "lucide-react";
+import {
+  ArrowLeft,
+  CalendarClock,
+  CheckCircle2,
+  FileCheck2,
+  FileText,
+  Info,
+  MailCheck,
+  Save,
+  Send,
+  UserRoundCheck,
+} from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   createJobReport,
@@ -32,7 +44,46 @@ const toDateTimeLocal = (value) => {
   return localDate.toISOString().slice(0, 16);
 };
 
- function ReportFormPage() {
+const SectionHeader = ({ icon: Icon, title, description }) => (
+  <div className="flex items-start gap-3">
+    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-violet-50">
+      <Icon className="h-4 w-4 text-violet-600" />
+    </div>
+
+    <div>
+      <h2 className="text-base font-semibold text-slate-900">
+        {title}
+      </h2>
+
+      {description && (
+        <p className="mt-0.5 text-xs text-slate-500">
+          {description}
+        </p>
+      )}
+    </div>
+  </div>
+);
+
+const FieldLabel = ({ htmlFor, children, icon: Icon }) => (
+  <label
+    htmlFor={htmlFor}
+    className="flex items-center gap-2 text-sm font-semibold text-slate-700"
+  >
+    {Icon && (
+      <Icon className="h-4 w-4 text-slate-400" />
+    )}
+
+    {children}
+  </label>
+);
+
+const textareaClassName =
+  "mt-2 block w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm leading-6 text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-violet-400 focus:ring-4 focus:ring-violet-50";
+
+const inputClassName =
+  "mt-2 block w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-violet-400 focus:ring-4 focus:ring-violet-50 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-500";
+
+function ReportFormPage() {
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -67,7 +118,8 @@ const toDateTimeLocal = (value) => {
           sent_to_customer_at: toDateTimeLocal(
             data.sent_to_customer_at
           ),
-          customer_signature: data.customer_signature || "",
+          customer_signature:
+            data.customer_signature || "",
           customer_signed_at: toDateTimeLocal(
             data.customer_signed_at
           ),
@@ -120,21 +172,30 @@ const toDateTimeLocal = (value) => {
           ? new Date(form.generated_at).toISOString()
           : null,
         sent_to_customer_at: form.sent_to_customer_at
-          ? new Date(form.sent_to_customer_at).toISOString()
+          ? new Date(
+              form.sent_to_customer_at
+            ).toISOString()
           : null,
         customer_signature:
           form.customer_signature.trim() || null,
         customer_signed_at: form.customer_signed_at
-          ? new Date(form.customer_signed_at).toISOString()
+          ? new Date(
+              form.customer_signed_at
+            ).toISOString()
           : null,
       };
 
       let savedReport;
 
       if (isEditMode) {
-        savedReport = await updateJobReport(id, reportData);
+        savedReport = await updateJobReport(
+          id,
+          reportData
+        );
       } else {
-        savedReport = await createJobReport(reportData);
+        savedReport = await createJobReport(
+          reportData
+        );
       }
 
       navigate(`/reports/${savedReport.id}`);
@@ -157,18 +218,37 @@ const toDateTimeLocal = (value) => {
 
   if (loading) {
     return (
-      <div className="p-6">
-        <div className="rounded-xl border border-gray-200 bg-white p-8 text-center shadow-sm">
-          <p className="text-sm text-gray-500">
-            Chargement du rapport...
-          </p>
+      <div className="space-y-6">
+        <div className="flex items-center gap-3">
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-violet-50">
+            <FileText className="h-5 w-5 text-violet-600" />
+          </div>
+
+          <div>
+            <div className="h-6 w-40 animate-pulse rounded bg-slate-200" />
+            <div className="mt-2 h-4 w-72 animate-pulse rounded bg-slate-100" />
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+          <div className="flex min-h-[260px] items-center justify-center">
+            <div className="flex flex-col items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-violet-50">
+                <FileText className="h-6 w-6 text-violet-600" />
+              </div>
+
+              <p className="text-sm font-medium text-slate-500">
+                Chargement du rapport…
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="p-6">
+    <div className="space-y-6">
       <div className="mx-auto max-w-4xl">
         {/* Header */}
         <div className="mb-6">
@@ -181,48 +261,60 @@ const toDateTimeLocal = (value) => {
                   : "/reports"
               )
             }
-            className="mb-4 inline-flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-gray-900"
+            className="mb-4 inline-flex items-center gap-2 text-sm font-semibold text-slate-600 transition hover:text-violet-700"
           >
-            <ArrowLeft size={18} />
+            <ArrowLeft className="h-4 w-4" />
+
             {isEditMode
               ? "Retour au rapport"
               : "Retour aux rapports"}
           </button>
 
-          <h1 className="text-2xl font-bold text-gray-900">
-            {isEditMode
-              ? "Modifier le rapport"
-              : "Nouveau rapport"}
-          </h1>
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-violet-50">
+              <FileText className="h-5 w-5 text-violet-600" />
+            </div>
 
-          <p className="mt-1 text-sm text-gray-500">
-            {isEditMode
-              ? "Modifiez les informations du rapport d'intervention."
-              : "Créez un nouveau rapport d'intervention."}
-          </p>
+            <div>
+              <h1 className="text-2xl font-bold text-slate-900">
+                {isEditMode
+                  ? "Modifier le rapport"
+                  : "Nouveau rapport"}
+              </h1>
+
+              <p className="mt-1 text-sm text-slate-500">
+                {isEditMode
+                  ? "Modifiez les informations du rapport d'intervention."
+                  : "Créez un nouveau rapport d'intervention."}
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Error */}
         {error && (
-          <div className="mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-            {error}
+          <div className="mb-6 flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+            <Info className="mt-0.5 h-5 w-5 shrink-0" />
+            <span>{error}</span>
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Intervention */}
-          <section className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="text-base font-semibold text-gray-900">
-              Intervention
-            </h2>
+          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <SectionHeader
+              icon={FileCheck2}
+              title="Intervention"
+              description="Associez le rapport à une intervention existante."
+            />
 
-            <div className="mt-4">
-              <label
+            <div className="mt-5">
+              <FieldLabel
                 htmlFor="job_id"
-                className="block text-sm font-medium text-gray-700"
+                icon={FileText}
               >
                 ID de l'intervention
-              </label>
+              </FieldLabel>
 
               <input
                 id="job_id"
@@ -233,31 +325,37 @@ const toDateTimeLocal = (value) => {
                 disabled={isEditMode}
                 required
                 placeholder="UUID de l'intervention"
-                className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 disabled:bg-gray-100 disabled:text-gray-500"
+                className={inputClassName}
               />
 
-              <p className="mt-1 text-xs text-gray-500">
-                {isEditMode
-                  ? "L'intervention ne peut pas être modifiée depuis ce formulaire."
-                  : "Saisissez l'UUID d'une intervention existante de votre organisation."}
-              </p>
+              <div className="mt-2 flex items-start gap-2 rounded-lg bg-slate-50 px-3 py-2.5">
+                <Info className="mt-0.5 h-4 w-4 shrink-0 text-slate-400" />
+
+                <p className="text-xs leading-5 text-slate-500">
+                  {isEditMode
+                    ? "L'intervention ne peut pas être modifiée depuis ce formulaire."
+                    : "Saisissez l'UUID d'une intervention existante de votre organisation."}
+                </p>
+              </div>
             </div>
           </section>
 
           {/* Report content */}
-          <section className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="text-base font-semibold text-gray-900">
-              Contenu du rapport
-            </h2>
+          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <SectionHeader
+              icon={FileText}
+              title="Contenu du rapport"
+              description="Documentez précisément l'intervention réalisée sur le terrain."
+            />
 
-            <div className="mt-4 space-y-5">
+            <div className="mt-5 space-y-5">
               <div>
-                <label
+                <FieldLabel
                   htmlFor="summary"
-                  className="block text-sm font-medium text-gray-700"
+                  icon={FileText}
                 >
                   Résumé
-                </label>
+                </FieldLabel>
 
                 <textarea
                   id="summary"
@@ -266,17 +364,17 @@ const toDateTimeLocal = (value) => {
                   value={form.summary}
                   onChange={handleChange}
                   placeholder="Résumé de l'intervention..."
-                  className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100"
+                  className={textareaClassName}
                 />
               </div>
 
               <div>
-                <label
+                <FieldLabel
                   htmlFor="work_performed"
-                  className="block text-sm font-medium text-gray-700"
+                  icon={CheckCircle2}
                 >
                   Travaux réalisés
-                </label>
+                </FieldLabel>
 
                 <textarea
                   id="work_performed"
@@ -285,17 +383,17 @@ const toDateTimeLocal = (value) => {
                   value={form.work_performed}
                   onChange={handleChange}
                   placeholder="Décrivez les travaux réalisés..."
-                  className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100"
+                  className={textareaClassName}
                 />
               </div>
 
               <div>
-                <label
+                <FieldLabel
                   htmlFor="observations"
-                  className="block text-sm font-medium text-gray-700"
+                  icon={FileText}
                 >
                   Observations
-                </label>
+                </FieldLabel>
 
                 <textarea
                   id="observations"
@@ -304,17 +402,17 @@ const toDateTimeLocal = (value) => {
                   value={form.observations}
                   onChange={handleChange}
                   placeholder="Observations effectuées sur le terrain..."
-                  className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100"
+                  className={textareaClassName}
                 />
               </div>
 
               <div>
-                <label
+                <FieldLabel
                   htmlFor="recommendations"
-                  className="block text-sm font-medium text-gray-700"
+                  icon={FileCheck2}
                 >
                   Recommandations
-                </label>
+                </FieldLabel>
 
                 <textarea
                   id="recommendations"
@@ -323,26 +421,28 @@ const toDateTimeLocal = (value) => {
                   value={form.recommendations}
                   onChange={handleChange}
                   placeholder="Recommandations pour le client..."
-                  className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100"
+                  className={textareaClassName}
                 />
               </div>
             </div>
           </section>
 
           {/* Status */}
-          <section className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="text-base font-semibold text-gray-900">
-              Suivi du rapport
-            </h2>
+          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <SectionHeader
+              icon={Send}
+              title="Suivi du rapport"
+              description="Suivez la génération, l'envoi et la signature du rapport."
+            />
 
-            <div className="mt-4 grid gap-5 md:grid-cols-2">
+            <div className="mt-5 grid gap-5 md:grid-cols-2">
               <div>
-                <label
+                <FieldLabel
                   htmlFor="generated_at"
-                  className="block text-sm font-medium text-gray-700"
+                  icon={FileCheck2}
                 >
                   Généré le
-                </label>
+                </FieldLabel>
 
                 <input
                   id="generated_at"
@@ -350,17 +450,17 @@ const toDateTimeLocal = (value) => {
                   type="datetime-local"
                   value={form.generated_at}
                   onChange={handleChange}
-                  className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100"
+                  className={inputClassName}
                 />
               </div>
 
               <div>
-                <label
+                <FieldLabel
                   htmlFor="sent_to_customer_at"
-                  className="block text-sm font-medium text-gray-700"
+                  icon={MailCheck}
                 >
                   Envoyé au client le
-                </label>
+                </FieldLabel>
 
                 <input
                   id="sent_to_customer_at"
@@ -368,17 +468,17 @@ const toDateTimeLocal = (value) => {
                   type="datetime-local"
                   value={form.sent_to_customer_at}
                   onChange={handleChange}
-                  className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100"
+                  className={inputClassName}
                 />
               </div>
 
               <div>
-                <label
+                <FieldLabel
                   htmlFor="customer_signature"
-                  className="block text-sm font-medium text-gray-700"
+                  icon={UserRoundCheck}
                 >
                   Signature client
-                </label>
+                </FieldLabel>
 
                 <input
                   id="customer_signature"
@@ -387,17 +487,17 @@ const toDateTimeLocal = (value) => {
                   value={form.customer_signature}
                   onChange={handleChange}
                   placeholder="Nom ou signature du client"
-                  className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100"
+                  className={inputClassName}
                 />
               </div>
 
               <div>
-                <label
+                <FieldLabel
                   htmlFor="customer_signed_at"
-                  className="block text-sm font-medium text-gray-700"
+                  icon={CalendarClock}
                 >
                   Signé le
-                </label>
+                </FieldLabel>
 
                 <input
                   id="customer_signed_at"
@@ -405,14 +505,14 @@ const toDateTimeLocal = (value) => {
                   type="datetime-local"
                   value={form.customer_signed_at}
                   onChange={handleChange}
-                  className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100"
+                  className={inputClassName}
                 />
               </div>
             </div>
           </section>
 
           {/* Actions */}
-          <div className="flex items-center justify-end gap-3">
+          <div className="flex flex-col-reverse gap-3 border-t border-slate-200 pt-6 sm:flex-row sm:items-center sm:justify-end">
             <button
               type="button"
               onClick={() =>
@@ -422,7 +522,7 @@ const toDateTimeLocal = (value) => {
                     : "/reports"
                 )
               }
-              className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+              className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50"
             >
               Annuler
             </button>
@@ -430,12 +530,12 @@ const toDateTimeLocal = (value) => {
             <button
               type="submit"
               disabled={saving}
-              className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-60"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-violet-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-violet-700 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              <Save size={17} />
+              <Save className="h-4 w-4" />
 
               {saving
-                ? "Enregistrement..."
+                ? "Enregistrement…"
                 : isEditMode
                   ? "Enregistrer les modifications"
                   : "Créer le rapport"}
@@ -446,4 +546,5 @@ const toDateTimeLocal = (value) => {
     </div>
   );
 }
+
 export default ReportFormPage;
