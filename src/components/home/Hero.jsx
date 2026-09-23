@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function HeroSection() {
   return (
     <section className="overflow-hidden bg-slate-50">
-      <div className="mx-auto grid max-w-7xl items-center gap-16 px-6 py-20 lg:grid-cols-2 lg:px-8 lg:py-28">
+      <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 py-20 lg:grid-cols-[0.9fr_1.4fr] lg:gap-16 lg:px-8 lg:py-28">
         {/* Content */}
         <div className="max-w-2xl">
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-green-200 bg-green-50 px-3.5 py-1.5 text-sm font-medium text-green-700">
@@ -59,61 +59,16 @@ function HeroSection() {
           </div>
         </div>
 
-        {/* Product preview placeholder */}
-        <div className="relative">
-          <div className="absolute -inset-6 rounded-[2rem] bg-green-100/60 blur-3xl" />
+        {/* Real Dashboard preview */}
+        <div className="relative min-w-0 lg:-mr-24">
+          <div className="absolute -inset-10 rounded-[2rem] bg-green-100/70 blur-3xl" />
 
           <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
-            <div className="flex h-12 items-center gap-2 border-b border-slate-200 px-4">
-              <span className="h-3 w-3 rounded-full bg-slate-200" />
-              <span className="h-3 w-3 rounded-full bg-slate-200" />
-              <span className="h-3 w-3 rounded-full bg-slate-200" />
-
-              <div className="ml-4 h-7 flex-1 rounded-md bg-slate-50" />
-            </div>
-
-            <div className="p-6">
-              <div className="mb-6 flex items-center justify-between">
-                <div>
-                  <div className="h-4 w-32 rounded bg-slate-200" />
-                  <div className="mt-2 h-3 w-48 rounded bg-slate-100" />
-                </div>
-
-                <div className="h-9 w-24 rounded-lg bg-green-100" />
-              </div>
-
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="rounded-xl border border-slate-200 p-5">
-                  <div className="h-3 w-20 rounded bg-slate-100" />
-                  <div className="mt-3 h-8 w-16 rounded bg-slate-200" />
-                </div>
-
-                <div className="rounded-xl border border-slate-200 p-5">
-                  <div className="h-3 w-20 rounded bg-slate-100" />
-                  <div className="mt-3 h-8 w-20 rounded bg-green-100" />
-                </div>
-
-                <div className="rounded-xl border border-slate-200 p-5 sm:col-span-2">
-                  <div className="mb-5 h-3 w-28 rounded bg-slate-100" />
-
-                  <div className="space-y-3">
-                    <div className="h-3 w-full rounded bg-slate-100" />
-                    <div className="h-3 w-5/6 rounded bg-slate-100" />
-                    <div className="h-3 w-2/3 rounded bg-green-100" />
-                    <div className="h-3 w-3/4 rounded bg-slate-100" />
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-5 rounded-xl border border-dashed border-slate-300 bg-slate-50 p-4 text-center">
-                <p className="text-sm font-medium text-slate-500">
-                  Aperçu du Dashboard GreenPilot
-                </p>
-                <p className="mt-1 text-xs text-slate-400">
-                  La capture réelle de votre application sera intégrée ici.
-                </p>
-              </div>
-            </div>
+            <img
+              src="/images/dashboard-preview.png"
+              alt="Dashboard GreenPilot — vue d'ensemble de l'activité"
+              className="block h-auto w-full"
+            />
           </div>
         </div>
       </div>

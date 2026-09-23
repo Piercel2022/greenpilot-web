@@ -1,11 +1,16 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import {
+  Activity,
+  AlertCircle,
   CarFront,
   Eye,
+  Filter,
+  Gauge,
   Pencil,
   Plus,
   Search,
+  ShieldCheck,
   Trash2,
 } from "lucide-react";
 
@@ -95,6 +100,9 @@ export default function VehiclesPage() {
     });
   }, [vehicles, search, statusFilter]);
 
+  const activeVehicles = vehicles.filter((vehicle) => vehicle.active).length;
+  const inactiveVehicles = vehicles.length - activeVehicles;
+
   const handleDelete = async (vehicle) => {
     const confirmed = window.confirm(
       `Supprimer le véhicule « ${vehicle.name} » ? Cette action est irréversible.`,
@@ -111,7 +119,9 @@ export default function VehiclesPage() {
       await deleteVehicle(vehicle.id);
 
       setVehicles((currentVehicles) =>
-        currentVehicles.filter((currentVehicle) => currentVehicle.id !== vehicle.id),
+        currentVehicles.filter(
+          (currentVehicle) => currentVehicle.id !== vehicle.id,
+        ),
       );
     } catch (err) {
       setError(
@@ -126,92 +136,170 @@ export default function VehiclesPage() {
 
   return (
     <div className="space-y-6">
+      {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700">
-              <CarFront className="h-6 w-6" />
-            </div>
+        <div className="flex items-start gap-3">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-cyan-50 text-cyan-600">
+            <CarFront className="h-6 w-6" />
+          </div>
 
-            <div>
-              <h1 className="text-2xl font-semibold text-slate-900">
+          <div>
+            <div className="flex items-center gap-2">
+              <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
                 Véhicules
               </h1>
-              <p className="text-sm text-slate-500">
-                Gérez les véhicules utilisés pour vos interventions.
-              </p>
+
+              <span className="hidden rounded-full bg-cyan-50 px-2.5 py-1 text-xs font-medium text-cyan-700 sm:inline-flex">
+                Parc
+              </span>
             </div>
+
+            <p className="mt-1 text-sm text-slate-500">
+              Gérez les véhicules utilisés pour vos interventions.
+            </p>
           </div>
         </div>
 
         <Link
           to="/vehicles/new"
-          className="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-emerald-700"
+          className="inline-flex items-center justify-center gap-2 rounded-lg bg-cyan-600 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2"
         >
           <Plus className="h-4 w-4" />
           Nouveau véhicule
         </Link>
       </div>
 
+      {/* Error */}
       {error && (
-        <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-          {error}
+        <div className="flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+          <AlertCircle className="mt-0.5 h-5 w-5 shrink-0" />
+
+          <div>
+            <p className="font-medium">Une erreur est survenue</p>
+            <p className="mt-1 text-red-600">{error}</p>
+          </div>
         </div>
       )}
 
-      <div className="rounded-xl border border-slate-200 bg-white shadow-sm">
-        <div className="flex flex-col gap-4 border-b border-slate-200 p-4 lg:flex-row lg:items-center lg:justify-between">
-          <div className="relative w-full lg:max-w-md">
-            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+      {/* Statistics */}
+      {!loading && vehicles.length > 0 && (
+        <div className="grid gap-4 sm:grid-cols-3">
+          <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
+                  Total
+                </p>
+                <p className="mt-1 text-2xl font-semibold text-slate-900">
+                  {vehicles.length}
+                </p>
+              </div>
 
-            <input
-              type="search"
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-              placeholder="Rechercher un véhicule..."
-              className="w-full rounded-lg border border-slate-300 py-2.5 pl-9 pr-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
-            />
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-cyan-50 text-cyan-600">
+                <CarFront className="h-5 w-5" />
+              </div>
+            </div>
           </div>
 
-          <select
-            value={statusFilter}
-            onChange={(event) => setStatusFilter(event.target.value)}
-            className="rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-700 outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
-          >
-            {Object.entries(STATUS_FILTERS).map(([value, label]) => (
-              <option key={value} value={value}>
-                {label}
-              </option>
-            ))}
-          </select>
+          <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
+                  Actifs
+                </p>
+                <p className="mt-1 text-2xl font-semibold text-slate-900">
+                  {activeVehicles}
+                </p>
+              </div>
+
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600">
+                <Activity className="h-5 w-5" />
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
+                  Inactifs
+                </p>
+                <p className="mt-1 text-2xl font-semibold text-slate-900">
+                  {inactiveVehicles}
+                </p>
+              </div>
+
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100 text-slate-500">
+                <ShieldCheck className="h-5 w-5" />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Main card */}
+      <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+        {/* Toolbar */}
+        <div className="border-b border-slate-200 bg-slate-50/60 p-4">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            <div className="relative w-full lg:max-w-md">
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+
+              <input
+                type="search"
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+                placeholder="Rechercher un véhicule..."
+                className="w-full rounded-lg border border-slate-200 bg-white py-2.5 pl-9 pr-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-100"
+              />
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Filter className="h-4 w-4 text-slate-400" />
+
+              <select
+                value={statusFilter}
+                onChange={(event) => setStatusFilter(event.target.value)}
+                className="rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-700 outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-100"
+              >
+                {Object.entries(STATUS_FILTERS).map(([value, label]) => (
+                  <option key={value} value={value}>
+                    {label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
         </div>
 
+        {/* Content */}
         {loading ? (
-          <div className="flex items-center justify-center px-6 py-16">
-            <p className="text-sm text-slate-500">
+          <div className="flex min-h-80 items-center justify-center">
+            <div className="flex items-center gap-2 text-sm text-cyan-600">
+              <Gauge className="h-4 w-4 animate-pulse" />
               Chargement des véhicules...
-            </p>
+            </div>
           </div>
         ) : filteredVehicles.length === 0 ? (
           <div className="flex flex-col items-center justify-center px-6 py-16 text-center">
-            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-500">
-              <CarFront className="h-6 w-6" />
+            <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-cyan-50 text-cyan-600">
+              <CarFront className="h-7 w-7" />
             </div>
 
             <h2 className="text-base font-semibold text-slate-900">
               Aucun véhicule trouvé
             </h2>
 
-            <p className="mt-1 max-w-md text-sm text-slate-500">
+            <p className="mt-1 max-w-md text-sm leading-6 text-slate-500">
               {search || statusFilter !== "all"
                 ? "Aucun véhicule ne correspond aux critères sélectionnés."
-                : "Commencez par ajouter votre premier véhicule."}
+                : "Commencez par ajouter votre premier véhicule à votre parc."}
             </p>
 
             {!search && statusFilter === "all" && (
               <Link
                 to="/vehicles/new"
-                className="mt-4 inline-flex items-center gap-2 rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+                className="mt-5 inline-flex items-center gap-2 rounded-lg bg-cyan-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-cyan-700"
               >
                 <Plus className="h-4 w-4" />
                 Ajouter un véhicule
@@ -221,41 +309,44 @@ export default function VehiclesPage() {
         ) : (
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-slate-200">
-              <thead className="bg-slate-50">
+              <thead className="bg-slate-50/80">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                     Véhicule
                   </th>
 
-                  <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                     Immatriculation
                   </th>
 
-                  <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                     Type
                   </th>
 
-                  <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                     Modèle
                   </th>
 
-                  <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                     Statut
                   </th>
 
-                  <th className="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <th className="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">
                     Actions
                   </th>
                 </tr>
               </thead>
 
-              <tbody className="divide-y divide-slate-200 bg-white">
+              <tbody className="divide-y divide-slate-100 bg-white">
                 {filteredVehicles.map((vehicle) => (
-                  <tr key={vehicle.id} className="transition hover:bg-slate-50">
+                  <tr
+                    key={vehicle.id}
+                    className="group transition hover:bg-cyan-50/30"
+                  >
                     <td className="whitespace-nowrap px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
-                          <CarFront className="h-4 w-4" />
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-cyan-50 text-cyan-600 transition group-hover:bg-cyan-100">
+                          <CarFront className="h-5 w-5" />
                         </div>
 
                         <div>
@@ -264,34 +355,48 @@ export default function VehiclesPage() {
                           </p>
 
                           {vehicle.year && (
-                            <p className="text-xs text-slate-500">
-                              {vehicle.year}
+                            <p className="mt-0.5 text-xs text-slate-500">
+                              Année {vehicle.year}
                             </p>
                           )}
                         </div>
                       </div>
                     </td>
 
-                    <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-slate-700">
-                      {vehicle.registration_number}
+                    <td className="whitespace-nowrap px-6 py-4">
+                      <span className="inline-flex items-center rounded-md bg-slate-100 px-2.5 py-1 font-mono text-xs font-semibold text-slate-700">
+                        {vehicle.registration_number || "—"}
+                      </span>
                     </td>
 
                     <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-600">
                       {getVehicleTypeLabel(vehicle.vehicle_type)}
                     </td>
 
-                    <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-600">
-                      {getVehicleLabel(vehicle)}
+                    <td className="whitespace-nowrap px-6 py-4">
+                      <div className="text-sm">
+                        <p className="font-medium text-slate-700">
+                          {getVehicleLabel(vehicle)}
+                        </p>
+                      </div>
                     </td>
 
                     <td className="whitespace-nowrap px-6 py-4">
                       <span
-                        className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${
+                        className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${
                           vehicle.active
-                            ? "bg-emerald-100 text-emerald-700"
+                            ? "bg-emerald-50 text-emerald-700"
                             : "bg-slate-100 text-slate-600"
                         }`}
                       >
+                        <span
+                          className={`h-1.5 w-1.5 rounded-full ${
+                            vehicle.active
+                              ? "bg-emerald-500"
+                              : "bg-slate-400"
+                          }`}
+                        />
+
                         {vehicle.active ? "Actif" : "Inactif"}
                       </span>
                     </td>
@@ -300,26 +405,29 @@ export default function VehiclesPage() {
                       <div className="flex justify-end gap-1">
                         <Link
                           to={`/vehicles/${vehicle.id}`}
-                          title="Voir"
-                          className="rounded-lg p-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-700"
+                          title="Voir le véhicule"
+                          aria-label="Voir le véhicule"
+                          className="rounded-lg p-2 text-slate-400 transition hover:bg-cyan-50 hover:text-cyan-600"
                         >
                           <Eye className="h-4 w-4" />
                         </Link>
 
                         <Link
                           to={`/vehicles/${vehicle.id}/edit`}
-                          title="Modifier"
-                          className="rounded-lg p-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-700"
+                          title="Modifier le véhicule"
+                          aria-label="Modifier le véhicule"
+                          className="rounded-lg p-2 text-slate-400 transition hover:bg-cyan-50 hover:text-cyan-600"
                         >
                           <Pencil className="h-4 w-4" />
                         </Link>
 
                         <button
                           type="button"
-                          title="Supprimer"
+                          title="Supprimer le véhicule"
+                          aria-label="Supprimer le véhicule"
                           onClick={() => handleDelete(vehicle)}
                           disabled={deletingId === vehicle.id}
-                          className="rounded-lg p-2 text-slate-500 transition hover:bg-red-50 hover:text-red-600 disabled:cursor-not-allowed disabled:opacity-50"
+                          className="rounded-lg p-2 text-slate-400 transition hover:bg-red-50 hover:text-red-600 disabled:cursor-not-allowed disabled:opacity-50"
                         >
                           <Trash2 className="h-4 w-4" />
                         </button>
@@ -334,11 +442,20 @@ export default function VehiclesPage() {
       </div>
 
       {!loading && vehicles.length > 0 && (
-        <p className="text-sm text-slate-500">
-          {filteredVehicles.length} véhicule
-          {filteredVehicles.length > 1 ? "s" : ""} affiché
-          {filteredVehicles.length > 1 ? "s" : ""} sur {vehicles.length}.
-        </p>
+        <div className="flex items-center justify-between text-sm text-slate-500">
+          <p>
+            {filteredVehicles.length} véhicule
+            {filteredVehicles.length > 1 ? "s" : ""} affiché
+            {filteredVehicles.length > 1 ? "s" : ""} sur {vehicles.length}.
+          </p>
+
+          {statusFilter !== "all" && (
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-cyan-50 px-2.5 py-1 text-xs font-medium text-cyan-700">
+              <Filter className="h-3.5 w-3.5" />
+              Filtre actif
+            </span>
+          )}
+        </div>
       )}
     </div>
   );
