@@ -66,6 +66,9 @@ import PlanningTeamsPage from "../pages/features/PlanningTeamsPage";
 import JobsFieldPage from "../pages/features/JobsFieldPage";
 import FacturationPage from "../pages/features/FacturationPage";
 import PilotageProfitabilityPage from "../pages/features/PilotageProfitabilityPage";
+import ResourcesPage from "../pages/ResourcesPage";
+import ResourceCategoryPage from "../pages/ResourceCategoryPage";
+import ResourceArticlePage from "../pages/ResourceArticlePage";
 
 
 
@@ -89,6 +92,9 @@ export default function AppRouter() {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/aide" element={<HelpPage />} />
         <Route path="/tarifs" element={<PricingPage />} />
+        <Route path="/ressources" element={<ResourcesPage />} />
+        <Route path="/ressources/:category" element={<ResourceCategoryPage />} />
+        <Route path="/ressources/:category/:slug" element={<ResourceArticlePage />} />
         <Route path="/fonctionnalites" element={<FeaturesPage />} />
         <Route path="/fonctionnalites/clients-sites" element={<ClientsSitesPage />} />
         <Route path="/fonctionnalites/devis" element={<QuotesFeaturePage />} />
