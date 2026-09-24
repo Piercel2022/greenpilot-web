@@ -20,6 +20,13 @@ USE </div>
       >
         Fonctionnalités
       </Link>
+      <Link
+        to="/ressources"
+        className="text-sm font-medium text-slate-600 transition hover:text-slate-950"
+      >
+        Ressources
+      </Link>
+
 
       <Link
         to="/tarifs"
